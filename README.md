@@ -13,7 +13,7 @@ Next, find `appsettings.demo.json` in the project root, rename it to `appsetting
 ```sh
 "CLIENT_ID": "{CLIENT_ID}",
 "CLIENT_SECRET": "{CLIENT_SECRET}",
-"REDIRECT_URI": "http://counter-culture:8080/oauth2/callback"
+"REDIRECT_URI": "http://localhost:8080/oauth2/callback"
 ```
 
 # Installation
