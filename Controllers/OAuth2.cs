@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net.Http;
 using AuthDemo.Constants;
+using Newtonsoft.Json;
+
 public class OAuth2Controller : BaseController
 {
 
@@ -31,7 +33,9 @@ public class OAuth2Controller : BaseController
         keyValues.Add(new KeyValuePair<string, string>("grant_type", "authorization_code"));
         var content = new FormUrlEncodedContent(keyValues);
         var response = await client.PostAsync(requestUri, content);
-        return await response.Content.ReadAsStringAsync();
+        var authResponseJson = await response.Content.ReadAsStringAsync();
+        var authResponse = JsonConvert.DeserializeObject<AuthResponse>(authResponseJson);
+        return authResponse.access_token;
     }
 
 }
