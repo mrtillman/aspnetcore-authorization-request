@@ -8,13 +8,12 @@ Demonstrates [How to Send an Authorization Request](https://github.com/mrtillman
 
 When in development mode, be sure to start [counter-culture.api](https://github.com/mrtillman/counter-culture.api) and [counter-culture.secure](https://github.com/mrtillman/counter-culture.secure) on ports `4000` and `5000`, respectively. Also, remember to [register](http://localhost:9000/register) your app locally via [counter-culture.dev](https://github.com/mrtillman/counter-culture.dev).
 
-Next, find `.demo.env` in the project root, rename it to `.env`, and set your environment variables:
+Next, find `appsettings.demo.json` in the project root, rename it to `appsettings.json`, and set your environment variables:
 
 ```sh
-CLIENT_ID={CLIENT_ID}
-CLIENT_SECRET={CLIENT_SECRET}
-REDIRECT_URI=http://localhost:8080/oauth2/callback
-NODE_ENV=development
+"CLIENT_ID": "{CLIENT_ID}",
+"CLIENT_SECRET": "{CLIENT_SECRET}",
+"REDIRECT_URI": "http://counter-culture:8080/oauth2/callback"
 ```
 
 # Installation

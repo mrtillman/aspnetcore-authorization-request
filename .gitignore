@@ -6,7 +6,7 @@ project.lock.json
 nupkg/
 appsettings/
 appsettings.*
-!appsettings.demo
+!appsettings.demo.*
 
 
 # Visual Studio Code
