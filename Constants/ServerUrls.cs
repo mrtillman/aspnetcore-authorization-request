@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CounterCulture.Constants
+namespace AuthDemo.Constants
 {
     public static class ServerUrls
     {
