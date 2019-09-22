@@ -1,20 +1,15 @@
 using System;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Encodings.Web;
 using AuthDemo.Constants;
 using System.Collections.Specialized;
 using Microsoft.Extensions.Configuration;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
 
-    public HomeController(IConfiguration Configuration)
-    {
-        _configuration = Configuration;
-    }
-
-    private IConfiguration _configuration { get; set; }
+    public HomeController (IConfiguration Configuration)
+        :base(Configuration) {}
 
     public ViewResult Index()
     {
@@ -28,8 +23,8 @@ public class HomeController : Controller
 
     private string getAuthUrl(){
         var baseUrl = ServerUrls.SECURE[ENV.DEV];
-        var client_id = _configuration["CLIENT_ID"].ToString();
-        var redirect_uri = _configuration["REDIRECT_URI"].ToString();
+        var client_id = configuration["CLIENT_ID"].ToString();
+        var redirect_uri = configuration["REDIRECT_URI"].ToString();
         NameValueCollection querystring = HttpUtility.ParseQueryString(string.Empty);
         querystring["response_type"] = "code";
         querystring["client_id"] = client_id;

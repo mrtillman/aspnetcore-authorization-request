@@ -1,25 +1,32 @@
-using System;
-using System.Web;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Encodings.Web;
-using AuthDemo.Constants;
-using System.Collections.Specialized;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Specialized;
+using System.Collections.Generic;
 
-public class OAuth2Controller : Controller
+public class OAuth2Controller : BaseController
 {
 
     public OAuth2Controller(IConfiguration Configuration)
-    {
-        _configuration = Configuration;
-    }
-
-    private IConfiguration _configuration { get; set; }
+        :base(Configuration) { }
 
     public string Callback()
     {
         var code = Request.Query["code"];
         return code;
-    } 
+    }
+
+    // private void getToken(string code) {
+    //     var keyValues = new List<KeyValuePair<string, string>>();
+    //     /*
+    //      code,
+    //     redirect_uri,
+    //     client_id,
+    //     client_secret,
+    //     scope: 'openid',
+    //     grant_type: 'authorization_code',
+    //     */
+    //     keyValues.Add(new KeyValuePair<string, string>("code", code));
+    //     var content = new FormUrlEncodedContent(keyValues);
+    //     client.PostAsync("requestUri", content);
+    // }
 
 }
