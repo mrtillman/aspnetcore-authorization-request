@@ -14,4 +14,6 @@ public class BaseController : Controller
     protected IConfiguration configuration { get; set; }
     protected HttpClient client { get; set; }
 
+    protected static string _state { get; set; }
+
 }

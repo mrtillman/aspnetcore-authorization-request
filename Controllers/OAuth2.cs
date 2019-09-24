@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Specialized;
 using System.Collections.Generic;
@@ -14,11 +15,19 @@ public class OAuth2Controller : BaseController
 
     public async Task<string> Callback()
     {
+        // 2. & 3. Authorization Grant
         var code = Request.Query["code"];
-        return await getToken(code);
+        var state = Request.Query["state"];
+        var token = await getToken(code, state);
+        return await getCounters(token);
     }
 
-    private async Task<string> getToken(string code) {
+    private async Task<string> getToken(string code, string state) {
+        
+        // 4. & 5. Access Token
+        if(state != _state){
+            throw new Exception("Forged Authorization Request");
+        }
         var keyValues = new List<KeyValuePair<string, string>>();
         var baseUrl = ServerUrls.SECURE[ENV.DEV];
         var requestUri = $"{baseUrl}/connect/token";
@@ -36,6 +45,16 @@ public class OAuth2Controller : BaseController
         var authResponseJson = await response.Content.ReadAsStringAsync();
         var authResponse = JsonConvert.DeserializeObject<AuthResponse>(authResponseJson);
         return authResponse.access_token;
+    }
+
+    private async Task<string> getCounters(string token) {
+        
+        // 6. Protected Resource
+        var baseUrl = ServerUrls.API[ENV.DEV];
+        var requestUri = $"{baseUrl}/v1/counters";
+        client.DefaultRequestHeaders.Add("Authorization", $"bearer {token}");
+        var response = await client.GetAsync(requestUri);
+        return await response.Content.ReadAsStringAsync();
     }
 
 }

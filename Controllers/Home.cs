@@ -18,6 +18,7 @@ public class HomeController : BaseController
 
     public void SignIn()
     {
+        // 1. Begin Authorization Request
         Response.Redirect(getAuthUrl());
     }
 
@@ -30,7 +31,7 @@ public class HomeController : BaseController
         querystring["client_id"] = client_id;
         querystring["redirect_uri"] = redirect_uri;
         querystring["scope"] = "openid";
-        querystring["state"] = Guid.NewGuid().ToString();
+        querystring["state"] = _state = Guid.NewGuid().ToString();
         var parameters = querystring.ToString();
         return $"{baseUrl}/connect/authorize?{parameters}";
     }
