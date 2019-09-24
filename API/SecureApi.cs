@@ -8,15 +8,13 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 
-public class SecureApi {
+public class SecureApi : BaseApi {
 
-  public SecureApi (IConfiguration Configuration, HttpClient Client) {
-    configuration = Configuration;
-    client = Client;
-  }
-  private IConfiguration configuration { get; set; }
-  private HttpClient client { get; set; }
+  public SecureApi (IConfiguration Configuration, HttpClient Client) 
+    : base(Configuration, Client) { }
+
   private static string _state { get; set; }
+  
   public string AuthorizationUrl { 
     get {
       var baseUrl = ServerUrls.SECURE[ENV.DEV];

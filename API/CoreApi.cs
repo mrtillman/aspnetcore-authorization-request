@@ -8,14 +8,11 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 
-public class CoreApi {
+public class CoreApi : BaseApi {
 
-  public CoreApi (IConfiguration Configuration, HttpClient Client) {
-    configuration = Configuration;
-    client = Client;
-  }
-  private IConfiguration configuration { get; set; }
-  private HttpClient client { get; set; }
+  public CoreApi (IConfiguration Configuration, HttpClient Client) 
+    : base(Configuration, Client) { }
+    
   public async Task<string> GetCounters(string token) {
       var baseUrl = ServerUrls.API[ENV.DEV];
       var requestUri = $"{baseUrl}/v1/counters";
