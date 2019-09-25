@@ -1,32 +1,41 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AuthDemo.Constants
 {
-    public static class ServerUrls
+  public class ServerUrls : IServerUrls
+  {
+    public ServerUrls(IHostingEnvironment Environment)
     {
-        public static Dictionary<ENV, string> API 
-            => new Dictionary<ENV, string> {
-                { ENV.DEV, "http://counter-culture:4000" },
-                { ENV.PROD, "https://api.counter-culture.io"}
-            };
-
-        public static Dictionary<ENV, string> APP
-            => new Dictionary<ENV, string> {
-                { ENV.DEV, "http://counter-culture:8080" },
-                { ENV.PROD, "https://www.counter-culture.io"}
-            };
-
-        public static Dictionary<ENV, string> DEV
-            => new Dictionary<ENV, string> {
-                { ENV.DEV, "http://counter-culture:9000" },
-                { ENV.PROD, "https://geeks.counter-culture.io"}
-            };
-
-        public static Dictionary<ENV, string> SECURE 
-            => new Dictionary<ENV, string> {
-                { ENV.DEV, "http://counter-culture:5000" },
-                { ENV.PROD, "https://secure.counter-culture.io"}
-            };
+      environment = Environment;
     }
+
+    private IHostingEnvironment environment { get; set; }
+
+    public string API
+    {
+      get => environment.IsDevelopment()
+             ? "http://counter-culture:4000"
+             : "https://api.counter-culture.io";
+    }
+    public string APP
+    {
+      get => environment.IsDevelopment()
+             ? "http://counter-culture:8080"
+             : "https://www.counter-culture.io";
+    }
+    public string DEV
+    {
+      get => environment.IsDevelopment()
+             ? "http://counter-culture:9000"
+             : "https://geeks.counter-culture.io";
+    }
+    public string SECURE
+    {
+      get => environment.IsDevelopment()
+             ? "http://counter-culture:5000"
+             : "https://secure.counter-culture.io";
+    }
+  }
 }

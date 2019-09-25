@@ -10,14 +10,20 @@ using System.Threading.Tasks;
 
 public class SecureApi : BaseApi {
 
-  public SecureApi (IConfiguration Configuration, HttpClient Client) 
-    : base(Configuration, Client) { }
+  public SecureApi (
+    IConfiguration Configuration,
+    IServerUrls ServerUrls,
+    HttpClient Client) 
+    : base(Configuration, Client) { 
+      serverUrls = ServerUrls;
+  }
 
-  private static string _state { get; set; }
+  private IServerUrls serverUrls { get; set; }
   
+  private static string _state { get; set; }
   public string AuthorizationUrl { 
     get {
-      var baseUrl = ServerUrls.SECURE[ENV.DEV];
+      var baseUrl = serverUrls.SECURE;
       var client_id = configuration["CLIENT_ID"].ToString();
       var redirect_uri = configuration["REDIRECT_URI"].ToString();
       NameValueCollection querystring = HttpUtility.ParseQueryString(string.Empty);
@@ -36,7 +42,7 @@ public class SecureApi : BaseApi {
           throw new Exception("Forged Authorization Request");
       }
       var keyValues = new List<KeyValuePair<string, string>>();
-      var baseUrl = ServerUrls.SECURE[ENV.DEV];
+      var baseUrl = serverUrls.SECURE;
       var requestUri = $"{baseUrl}/connect/token";
       var redirect_uri = configuration["REDIRECT_URI"].ToString();
       var client_id = configuration["CLIENT_ID"].ToString();

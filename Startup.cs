@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using AuthDemo.Constants;
 
 namespace aspnetcore_authorization_request
 {
@@ -17,6 +18,7 @@ namespace aspnetcore_authorization_request
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
+      services.AddScoped<IServerUrls, ServerUrls>();
       services.AddScoped<HttpClient>();
       services.AddScoped<SecureApi>();
       services.AddScoped<CoreApi>();
