@@ -21,10 +21,10 @@ public class OAuth2Controller : Controller
         var state = Request.Query["state"];
 
         // 4. & 5. Access Token
-        var token = await secureApi.GetToken(code, state);
+        coreApi.Token = await secureApi.GetToken(code, state);
 
         // 6. Protected Resource
-        return await coreApi.GetCounters(token);
+        return await coreApi.GetCounters();
     }
 
     

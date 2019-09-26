@@ -19,11 +19,13 @@ public class CoreApi : BaseApi {
   }
 
   private IServerUrls serverUrls { get; set; }
+
+  public string Token { get; set; }
   
-  public async Task<string> GetCounters(string token) {
+  public async Task<string> GetCounters() {
       var baseUrl = serverUrls.API;
       var requestUri = $"{baseUrl}/v1/counters";
-      client.DefaultRequestHeaders.Add("Authorization", $"bearer {token}");
+      client.DefaultRequestHeaders.Add("Authorization", $"bearer {Token}");
       var response = await client.GetAsync(requestUri);
       return await response.Content.ReadAsStringAsync();
   }
