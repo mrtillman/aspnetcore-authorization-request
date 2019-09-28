@@ -8,7 +8,8 @@ public class HomeController : Controller
         secureApi = SecureApi;
     }
 
-    public SecureApi secureApi { get; set; }
+    private SecureApi secureApi { get; set; }
+    
     public ViewResult Index()
     {
         return View();
