@@ -22,7 +22,7 @@ public class CoreApi : BaseApi {
   private IServerUrls serverUrls { get; set; }
 
   public string Token { get; set; }
-  
+
   public async Task<Result<List<Counter>>> GetCounters() {
     var requestUri = $"{serverUrls.API}/v1/counters";
     client.DefaultRequestHeaders.Add("authorization", $"bearer {Token}");
@@ -36,4 +36,5 @@ public class CoreApi : BaseApi {
 
     return Result<List<Counter>>.Ok(countersResponse);
   }
+
 }

@@ -22,6 +22,7 @@ public class SecureApi : BaseApi {
   private IServerUrls serverUrls { get; set; }
   
   private static string _state { get; set; }
+
   public string AuthorizationUrl { 
     get {
       var baseUrl = serverUrls.SECURE;
@@ -64,4 +65,5 @@ public class SecureApi : BaseApi {
 
     return Result<AuthResponse>.Ok(authResponse);
   }
+
 }
