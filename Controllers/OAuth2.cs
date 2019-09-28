@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using AuthDemo.Constants;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 public class OAuth2Controller : Controller
 {
@@ -12,21 +13,36 @@ public class OAuth2Controller : Controller
         coreApi = CoreApi;
     }
 
-    public SecureApi secureApi { get; set; }
-    public CoreApi coreApi { get; set; }
-    public async Task<string> Callback()
+    private SecureApi secureApi { get; set; }
+    
+    private CoreApi coreApi { get; set; }
+
+    // 2. Authorization Grant
+    public async Task<ActionResult> Callback()
     {
-        // 2. & 3. Authorization Grant
+        // 3. Authorization Grant
         var code = Request.Query["code"];
         var state = Request.Query["state"];
 
-        // 4. & 5. Access Token
-        coreApi.Token = await secureApi.GetToken(code, state);
+        Result<AuthResponse> authResult = await secureApi.GetToken(code, state);
 
+        if(authResult.DidFail){
+            return Unauthorized(authResult.ErrorMessage);
+        }
+        
+        // 4. Access Token
+        coreApi.Token = authResult.Value.access_token;
+
+        // 5. Access Token
+        Result<List<Counter>> countersResult = await coreApi.GetCounters();
+
+        if(countersResult.DidFail){
+            return BadRequest(countersResult.ErrorMessage);
+        }
+        
         // 6. Protected Resource
-        return await coreApi.GetCounters();
-    }
+        return Ok(countersResult.Value);
 
-    
+    }
 
 }
