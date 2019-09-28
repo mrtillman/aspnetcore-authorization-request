@@ -2,7 +2,7 @@ using System;
 
 namespace AuthDemo.Constants
 {
-  public enum ENV {
+  public enum MODE {
     DEV, PROD
   };
 }
