@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using Newtonsoft.Json;
 
-public class Counter
+namespace AuthDemo.Models
 {
+  public class Counter
+  {
     [JsonProperty("_id")]
     public string Id { get; set; }
 
@@ -16,4 +18,5 @@ public class Counter
 
     [JsonProperty("skip")]
     public long Skip { get; set; }
+  }
 }

@@ -8,8 +8,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using AuthDemo.Constants;
+using AuthDemo.API;
 
-namespace aspnetcore_authorization_request
+namespace AuthDemo
 {
   public class Startup
   {
