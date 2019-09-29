@@ -21,7 +21,7 @@ Next, find `Server/appsettings.demo.json`, rename it to `appsettings.json`, and 
 ```sh
 cd Server
 
-dotnet install
+dotnet restore
 ```
 
 ## Launching the App
