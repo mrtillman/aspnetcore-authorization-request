@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using AuthDemo.Constants;
 using AuthDemo.API;
+using AuthDemo.UseCases;
 
 namespace AuthDemo
 {
@@ -23,6 +19,9 @@ namespace AuthDemo
       services.AddScoped<HttpClient>();
       services.AddScoped<SecureApi>();
       services.AddScoped<CoreApi>();
+      services.AddScoped<GetTokenUseCase>();
+      services.AddScoped<GetCountersUseCase>();
+
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

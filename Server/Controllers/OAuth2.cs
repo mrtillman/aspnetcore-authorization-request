@@ -3,38 +3,42 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AuthDemo.API;
 using AuthDemo.Models;
+using AuthDemo.UseCases;
+
 public class OAuth2Controller : Controller
 {
 
-  public OAuth2Controller(SecureApi SecureApi, CoreApi CoreApi)
+  public OAuth2Controller(GetTokenUseCase GetTokenUseCase, GetCountersUseCase GetCountersUseCase)
   {
-    secureApi = SecureApi;
-    coreApi = CoreApi;
+    getTokenUseCase = GetTokenUseCase;
+    getCountersUseCase = GetCountersUseCase;
   }
-
-  private SecureApi secureApi { get; set; }
+  private GetTokenUseCase getTokenUseCase { get; set; }
+  private GetCountersUseCase getCountersUseCase { get; set; }
 
   private CoreApi coreApi { get; set; }
 
   // 2. Authorization Grant
   public async Task<ActionResult> Callback()
   {
+
     // 3. Authorization Grant
-    var code = Request.Query["code"];
-    var state = Request.Query["state"];
+    
+    getTokenUseCase.Code = Request.Query["code"];
+    getTokenUseCase.State = Request.Query["state"];
 
-    Result<AuthResponse> authResult = await secureApi.GetToken(code, state);
-
-    if (authResult.DidFail)
+    var tokenResult = await getTokenUseCase.Execute();
+    
+    if (tokenResult.DidFail)
     {
-      return Unauthorized(authResult.ErrorMessage);
+      return Unauthorized(tokenResult.ErrorMessage);
     }
 
     // 4. Access Token
-    coreApi.Token = authResult.Value.access_token;
+    getCountersUseCase.Token = tokenResult.Value;
 
     // 5. Access Token
-    Result<List<Counter>> countersResult = await coreApi.GetCounters();
+    var countersResult = await getCountersUseCase.Execute();
 
     if (countersResult.DidFail)
     {
