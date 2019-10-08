@@ -8,7 +8,7 @@ namespace AuthDemo.TestDoubles
 {  
   static partial class Mock
   {
-    public static Moq.Mock<HttpMessageHandler> HttpResponseMessage(HttpResponseMessage mockResponse)
+    public static Moq.Mock<HttpMessageHandler> HttpMessageHandler(HttpResponseMessage mockResponse)
       => TestDoubles.Mock.SetUp(handler => {
           handler.Protected()
                 .Setup<Task<HttpResponseMessage>>(

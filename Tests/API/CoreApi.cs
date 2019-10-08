@@ -22,7 +22,7 @@ namespace AuthDemo.Tests
         return response;
       });
 
-      var mockHandler = Mock.HttpResponseMessage(mockResponse);
+      var mockHandler = Mock.HttpMessageHandler(mockResponse);
 
       var httpClient = new HttpClient(mockHandler.Object);
 
