@@ -5,6 +5,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AuthDemo.API;
 using System.Net;
 using System.Net.Http;
+using System.Web;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
 
 namespace AuthDemo.Tests
 {
@@ -12,12 +15,12 @@ namespace AuthDemo.Tests
   public class SecureApiTests
   {
     [TestInitialize]
-    public void initSecureApi()
+    public void TestStartup()
     {
       var mockResponse = Mock.SetUp(response =>
       {
         response.StatusCode = HttpStatusCode.OK;
-        response.Content = new StringContent(Stub.JSON.Counters);
+        response.Content = new StringContent(Stub.JSON.AuthResponse);
         return response;
       });
 
@@ -34,6 +37,15 @@ namespace AuthDemo.Tests
       Assert.IsTrue(authUrlRegex.IsMatch(secureApi.AuthorizationUrl));
     }
 
+    [TestMethod]
+    public async Task Should_Get_Token(){
+      NameValueCollection querystring = HttpUtility.ParseQueryString(secureApi.AuthorizationUrl);
+      var state = querystring["state"];
+      var authResponse = await secureApi.GetToken("code", state);
+      Assert.IsNotNull(authResponse.Value.access_token);
+    }
+
+    #region authUrlRegex
     private Regex authUrlRegex
     {
       get => new Regex($"^((http|https)://({hostNames})/connect/authorize\\?{requestParameters})(.*)$");
@@ -57,5 +69,6 @@ namespace AuthDemo.Tests
                 "(?=.*(&state=(.*)))",
             });
     }
+    #endregion
   }
 }
