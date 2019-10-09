@@ -13,6 +13,9 @@ namespace AuthDemo.TestDoubles
         Moq.Mock.Get(mockServerUrls)
             .Setup(urls => urls.API)
             .Returns("https://api.counter-culture.io");
+        Moq.Mock.Get(mockServerUrls)
+            .Setup(urls => urls.SECURE)
+            .Returns("https://secure.counter-culture.io");
         return mockServerUrls;
       }
     }
