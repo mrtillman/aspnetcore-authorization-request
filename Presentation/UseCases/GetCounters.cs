@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using AuthDemo.API;
 using AuthDemo.Models;
 using AuthDemo.Interfaces;
 
