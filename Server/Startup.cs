@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AuthDemo.Constants;
 using AuthDemo.API;
 using AuthDemo.UseCases;
+using AuthDemo.Interfaces;
 
 namespace AuthDemo
 {
@@ -17,11 +18,10 @@ namespace AuthDemo
       services.AddMvc();
       services.AddScoped<IServerUrls, ServerUrls>();
       services.AddScoped<HttpClient>();
-      services.AddScoped<SecureApi>();
-      services.AddScoped<CoreApi>();
+      services.AddScoped<ISecureApi, SecureApi>();
+      services.AddScoped<ICoreApi, CoreApi>();
       services.AddScoped<GetTokenUseCase>();
       services.AddScoped<GetCountersUseCase>();
-
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
