@@ -8,10 +8,11 @@ using AuthDemo.Constants;
 using AuthDemo.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AuthDemo.Interfaces;
 
 namespace AuthDemo.API
 {
-  public class SecureApi : BaseApi
+  public class SecureApi : BaseApi, ISecureApi
   {
 
     public SecureApi(

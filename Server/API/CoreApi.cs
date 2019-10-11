@@ -1,18 +1,15 @@
-using System;
-using System.Web;
 using System.Net;
 using System.Net.Http;
-using System.Collections.Specialized;
 using Microsoft.Extensions.Configuration;
 using AuthDemo.Constants;
 using AuthDemo.Models;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
+using AuthDemo.Interfaces;
 
 namespace AuthDemo.API
 {
-  public class CoreApi : BaseApi
+  public class CoreApi : BaseApi, ICoreApi
   {
 
     public CoreApi(
