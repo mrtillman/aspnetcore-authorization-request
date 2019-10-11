@@ -1,8 +1,6 @@
-using System;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AuthDemo.API
