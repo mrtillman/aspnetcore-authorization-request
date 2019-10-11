@@ -1,16 +1,16 @@
-using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using AuthDemo.API;
 using AuthDemo.Models;
+using AuthDemo.Interfaces;
 
 namespace AuthDemo.UseCases
 {
   public class GetCountersUseCase : IUseCase<Task<Result<List<Counter>>>>
   {
-    private CoreApi coreApi { get; set; }
+    private ICoreApi coreApi { get; set; }
     public string Token { get; set; }
-    public GetCountersUseCase(CoreApi CoreApi)
+    public GetCountersUseCase(ICoreApi CoreApi)
     {
         coreApi = CoreApi;
     }

@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-using AuthDemo.API;
+using AuthDemo.Interfaces;
 public class HomeController : Controller
 {
 
-  public HomeController(SecureApi SecureApi)
+  public HomeController(ISecureApi SecureApi)
   {
     secureApi = SecureApi;
   }
 
-  private SecureApi secureApi { get; set; }
+  private ISecureApi secureApi { get; set; }
 
   public ViewResult Index()
   {
