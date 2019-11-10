@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common;
 using Domain;
-using Services;
+using Infrastructure;
 
 namespace Services
 {
@@ -18,8 +18,8 @@ namespace Services
     public SecureApi(
       IConfiguration Configuration,
       IServerUrls ServerUrls,
-      HttpClient Client)
-      : base(Configuration, Client)
+      IHttpShim HttpShim)
+      : base(Configuration, HttpShim)
     {
       serverUrls = ServerUrls;
     }
@@ -52,11 +52,14 @@ namespace Services
       {
         return Result<AuthResponse>.Fail("Forged Authorization Request");
       }
-      var keyValues = new List<KeyValuePair<string, string>>();
-      var requestUri = $"{serverUrls.SECURE}/connect/token";
+
+      httpShim.BaseURL = serverUrls.SECURE;
+
       var redirect_uri = configuration["REDIRECT_URI"].ToString();
       var client_id = configuration["CLIENT_ID"].ToString();
       var client_secret = configuration["CLIENT_SECRET"].ToString();
+      var keyValues = new List<KeyValuePair<string, string>>();
+
       keyValues.Add(new KeyValuePair<string, string>("code", code));
       keyValues.Add(new KeyValuePair<string, string>("redirect_uri", redirect_uri));
       keyValues.Add(new KeyValuePair<string, string>("client_id", client_id));
@@ -64,7 +67,8 @@ namespace Services
       keyValues.Add(new KeyValuePair<string, string>("scope", "openid"));
       keyValues.Add(new KeyValuePair<string, string>("grant_type", "authorization_code"));
       var content = new FormUrlEncodedContent(keyValues);
-      var response = await client.PostAsync(requestUri, content);
+
+      var response = await httpShim.Post("connect/token", content);
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
@@ -75,6 +79,5 @@ namespace Services
 
       return Result<AuthResponse>.Ok(authResponse);
     }
-
   }
 }

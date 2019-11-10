@@ -2,20 +2,21 @@ using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Infrastructure;
 
 namespace Services
 {
   public class BaseApi
   {
 
-    public BaseApi(IConfiguration Configuration, HttpClient Client)
+    public BaseApi(IConfiguration Configuration, IHttpShim HttpShim)
     {
       configuration = Configuration;
-      client = Client;
+      httpShim = HttpShim;
     }
 
     protected IConfiguration configuration { get; set; }
-    protected HttpClient client { get; set; }
+    protected IHttpShim httpShim { get; set; }
 
     protected async Task<T> DeserializeResponseStringAs<T>(HttpResponseMessage response)
     {

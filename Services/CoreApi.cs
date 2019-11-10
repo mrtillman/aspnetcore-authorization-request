@@ -1,11 +1,10 @@
 using System.Net;
-using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common;
 using Domain;
-using Services;
+using Infrastructure;
 
 namespace Services
 {
@@ -15,21 +14,25 @@ namespace Services
     public CoreApi(
       IConfiguration Configuration,
       IServerUrls ServerUrls,
-      HttpClient Client)
-      : base(Configuration, Client)
+      IHttpShim HttpShim)
+      : base(Configuration, HttpShim)
     {
       serverUrls = ServerUrls;
     }
 
     private IServerUrls serverUrls { get; set; }
 
-    public string Token { get; set; }
+    public string Token { 
+      get => httpShim.Token;
+      set { httpShim.Token = value; } 
+    }
 
     public async Task<Result<List<Counter>>> GetCounters()
     {
-      var requestUri = $"{serverUrls.API}/v1/counters";
-      client.DefaultRequestHeaders.Add("authorization", $"bearer {Token}");
-      var response = await client.GetAsync(requestUri);
+      
+      httpShim.BaseURL = serverUrls.API;
+
+      var response = await httpShim.Get("v1/counters");
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
