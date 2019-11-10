@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Application;
 using Services;
-using Domain;
 
 public class OAuth2Controller : Controller
 {
@@ -18,13 +17,13 @@ public class OAuth2Controller : Controller
   private CoreApi coreApi { get; set; }
 
   // 2. Authorization Grant
-  public async Task<ActionResult> Callback()
+  public async Task<ActionResult> Callback(string code, string state)
   {
 
     // 3. Authorization Grant
     
-    getTokenUseCase.Code = Request.Query["code"];
-    getTokenUseCase.State = Request.Query["state"];
+    getTokenUseCase.Code = code;
+    getTokenUseCase.State = state;
 
     var tokenResult = await getTokenUseCase.Execute();
     
