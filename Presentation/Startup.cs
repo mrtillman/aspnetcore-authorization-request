@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Common;
 using Application;
+using Infrastructure;
 using Services;
 
 namespace AuthDemo
@@ -17,6 +18,7 @@ namespace AuthDemo
       services.AddMvc();
       services.AddScoped<IServerUrls, ServerUrls>();
       services.AddScoped<HttpClient>();
+      services.AddScoped<IHttpShim, HttpShim>();
       services.AddScoped<ISecureApi, SecureApi>();
       services.AddScoped<ICoreApi, CoreApi>();
       services.AddScoped<GetTokenUseCase>();
