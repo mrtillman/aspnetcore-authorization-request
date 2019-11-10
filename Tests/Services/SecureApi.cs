@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Services;
 using Tests.TestDoubles;
+using Infrastructure;
 
 namespace Tests.Services
 {
@@ -24,10 +25,13 @@ namespace Tests.Services
         return response;
       });
 
-      var mockHandler = Mock.HttpMessageHandler(mockResponse);
+      var mockHttpShim = Moq.Mock.Of<IHttpShim>();
 
-      var httpClient = new HttpClient(mockHandler.Object);
-      secureApi = new SecureApi(Mock.Configuration, Mock.ServerUrls, httpClient);
+      Moq.Mock.Get(mockHttpShim)
+         .Setup(shim => shim.Post("connect/token", Moq.It.IsAny<HttpContent>()))
+         .Returns(Task.FromResult(mockResponse));
+      
+      secureApi = new SecureApi(Mock.Configuration, Mock.ServerUrls, mockHttpShim);
     }
     private SecureApi secureApi { get; set; }
 

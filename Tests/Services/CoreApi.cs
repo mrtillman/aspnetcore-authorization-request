@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Services;
 using Tests.TestDoubles;
+using Infrastructure;
 
 namespace Tests.Services
 {
@@ -21,12 +22,14 @@ namespace Tests.Services
         response.Content = new StringContent(Stub.JSON.Counters);
         return response;
       });
+      
+      var mockHttpShim = Moq.Mock.Of<IHttpShim>();
 
-      var mockHandler = Mock.HttpMessageHandler(mockResponse);
-
-      var httpClient = new HttpClient(mockHandler.Object);
-
-      coreApi = new CoreApi(Mock.Configuration, Mock.ServerUrls, httpClient);
+      Moq.Mock.Get(mockHttpShim)
+         .Setup(shim => shim.Get("v1/counters"))
+         .Returns(Task.FromResult(mockResponse));
+      
+      coreApi = new CoreApi(Mock.Configuration, Mock.ServerUrls, mockHttpShim);
 
       var result = await coreApi.GetCounters();
 
