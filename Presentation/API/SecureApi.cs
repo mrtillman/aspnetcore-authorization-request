@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Collections.Specialized;
 using Microsoft.Extensions.Configuration;
-using AuthDemo.Constants;
+using Common;
 using AuthDemo.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;

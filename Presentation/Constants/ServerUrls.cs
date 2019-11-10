@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
+using Common;
 
 namespace AuthDemo.Constants
 {

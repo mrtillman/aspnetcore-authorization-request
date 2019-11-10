@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Common;
 using AuthDemo.Constants;
 using AuthDemo.API;
 using AuthDemo.UseCases;
