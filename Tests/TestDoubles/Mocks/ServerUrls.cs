@@ -9,7 +9,7 @@ namespace Tests.TestDoubles
     public static IServerUrls ServerUrls
     {
       get {
-        mockServerUrls = Moq.Mock.Of<IServerUrls>();
+        mockServerUrls = Moq.Mock.Of<IServerUrls>(Moq.MockBehavior.Strict);
         Moq.Mock.Get(mockServerUrls)
             .Setup(urls => urls.API)
             .Returns("https://api.counter-culture.io");

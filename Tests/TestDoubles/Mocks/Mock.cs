@@ -7,7 +7,7 @@ namespace Tests.TestDoubles
   {
     public static HttpResponseMessage SetUp(Func<HttpResponseMessage, HttpResponseMessage> setup)
     {
-      return setup(Moq.Mock.Of<HttpResponseMessage>());
+      return setup(Moq.Mock.Of<HttpResponseMessage>(Moq.MockBehavior.Strict));
     }
 
     public static Moq.Mock<HttpMessageHandler> SetUp(Func<Moq.Mock<HttpMessageHandler>, Moq.Mock<HttpMessageHandler>> setup)

@@ -15,7 +15,7 @@ namespace Tests.Application
 
     [TestMethod]
     public async Task Should_Get_Token() {
-      var mockSecureApi = Mock.Of<ISecureApi>();
+      var mockSecureApi = Mock.Of<ISecureApi>(Moq.MockBehavior.Strict);
       Result<AuthResponse> mockResult = Result<AuthResponse>.Ok(new AuthResponse());
       Mock.Get(mockSecureApi)
           .Setup(api => api.GetToken(It.IsAny<string>(),It.IsAny<string>()))

@@ -7,7 +7,7 @@ namespace Tests.TestDoubles
     public static IConfiguration Configuration
     {
       get {
-        var configuration = Moq.Mock.Of<IConfiguration>();
+        var configuration = Moq.Mock.Of<IConfiguration>(Moq.MockBehavior.Strict);
         Moq.Mock.Get(configuration)
                 .Setup(config => config["CLIENT_ID"])
                 .Returns("CLIENT_ID");
