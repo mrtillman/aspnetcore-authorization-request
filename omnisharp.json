@@ -1,5 +1,8 @@
 {
     "MsBuild": {
         "UseLegacySdkResolver": true
+    },
+    "formattingOptions": {
+        "tabSize": 2
     }
 }
