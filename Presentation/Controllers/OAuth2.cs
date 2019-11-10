@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using AuthDemo.API;
-using AuthDemo.Models;
-using AuthDemo.UseCases;
+using Application;
+using Services;
+using Domain;
 
 public class OAuth2Controller : Controller
 {
