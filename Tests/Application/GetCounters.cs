@@ -1,12 +1,13 @@
-using AuthDemo.UseCases;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AuthDemo.Interfaces;
-using AuthDemo.Models;
 using Moq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Application;
+using Common;
+using Domain;
+using Services;
 
-namespace AuthDemo.Tests
+namespace Tests.Application
 {
   [TestClass]
   public class GetCountersTests

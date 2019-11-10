@@ -1,11 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AuthDemo.API;
-using AuthDemo.TestDoubles;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Services;
+using Tests.TestDoubles;
 
-namespace AuthDemo.Tests
+namespace Tests.Services
 {
   [TestClass]
   public class CoreApiTests

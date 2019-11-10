@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace AuthDemo.TestDoubles  
+namespace Tests.TestDoubles
 {
   static partial class Mock
   {

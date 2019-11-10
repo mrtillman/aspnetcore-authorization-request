@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
 
-namespace AuthDemo.TestDoubles
+namespace Tests.TestDoubles
 {  
   static partial class Mock
   {

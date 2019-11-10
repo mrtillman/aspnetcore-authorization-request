@@ -1,6 +1,6 @@
-using AuthDemo.Constants;
+using Common;
 
-namespace AuthDemo.TestDoubles
+namespace Tests.TestDoubles
 {  
   static partial class Mock
   {

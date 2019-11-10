@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 
-namespace AuthDemo.TestDoubles  
+namespace Tests.TestDoubles
 {
   static partial class Mock
   {

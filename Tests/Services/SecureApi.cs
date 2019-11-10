@@ -1,15 +1,15 @@
 using System;
-using AuthDemo.TestDoubles;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AuthDemo.API;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Services;
+using Tests.TestDoubles;
 
-namespace AuthDemo.Tests
+namespace Tests.Services
 {
   [TestClass]
   public class SecureApiTests
