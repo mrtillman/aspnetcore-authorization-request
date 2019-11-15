@@ -9,14 +9,16 @@ namespace Application
   public class GetCountersUseCase : IUseCase<Task<Result<List<Counter>>>>
   {
     private ICountersService countersService { get; set; }
-    public string Token { get; set; }
+    public string Token { 
+      get { return countersService.Token; }
+      set { countersService.Token = value; } 
+    }
     public GetCountersUseCase(ICountersService CountersService)
     {
         countersService = CountersService;
     }
     public async Task<Result<List<Counter>>> Execute()
     {
-      countersService.Token = Token;
 
       Result<List<Counter>> countersResult = await countersService.GetCounters();
 
