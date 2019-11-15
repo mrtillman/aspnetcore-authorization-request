@@ -16,7 +16,7 @@ namespace Application
     public string State { get; set; }
     public async Task<Result<string>> Execute()
     {
-      Result<AuthResponse> authResult = await secureApi.GetToken(Code, State);
+      Result<AuthorizationResponse> authResult = await secureApi.GetToken(Code, State);
 
       if (authResult.DidFail)
       {

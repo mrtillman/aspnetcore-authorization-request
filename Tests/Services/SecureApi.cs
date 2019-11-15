@@ -21,7 +21,7 @@ namespace Tests.Services
       var mockResponse = Mock.SetUp(response =>
       {
         response.StatusCode = HttpStatusCode.OK;
-        response.Content = new StringContent(Stub.JSON.AuthResponse);
+        response.Content = new StringContent(Stub.JSON.AuthorizationResponse);
         return response;
       });
 
@@ -45,8 +45,8 @@ namespace Tests.Services
     public async Task Should_Get_Token(){
       NameValueCollection querystring = HttpUtility.ParseQueryString(secureApi.AuthorizationUrl);
       var state = querystring["state"];
-      var authResponse = await secureApi.GetToken("code", state);
-      Assert.IsNotNull(authResponse.Value.access_token);
+      var AuthorizationResponse = await secureApi.GetToken("code", state);
+      Assert.IsNotNull(AuthorizationResponse.Value.access_token);
     }
 
     #region authUrlRegex

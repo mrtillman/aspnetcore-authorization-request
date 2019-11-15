@@ -6,6 +6,6 @@ namespace Services {
   public interface ISecureApi
   {
       string AuthorizationUrl { get; }
-      Task<Result<AuthResponse>> GetToken(string code, string state);
+      Task<Result<AuthorizationResponse>> GetToken(string code, string state);
   }
 }

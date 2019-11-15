@@ -46,11 +46,11 @@ namespace Services
       }
     }
 
-    public async Task<Result<AuthResponse>> GetToken(string code, string state)
+    public async Task<Result<AuthorizationResponse>> GetToken(string code, string state)
     {
       if (state != _state)
       {
-        return Result<AuthResponse>.Fail("Forged Authorization Request");
+        return Result<AuthorizationResponse>.Fail("Forged Authorization Request");
       }
 
       httpShim.BaseURL = serverUrls.SECURE;
@@ -72,12 +72,12 @@ namespace Services
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
-        return Result<AuthResponse>.Fail(response.ReasonPhrase);
+        return Result<AuthorizationResponse>.Fail(response.ReasonPhrase);
       }
 
-      var authResponse = await DeserializeResponseStringAs<AuthResponse>(response);
+      var AuthorizationResponse = await DeserializeResponseStringAs<AuthorizationResponse>(response);
 
-      return Result<AuthResponse>.Ok(authResponse);
+      return Result<AuthorizationResponse>.Ok(AuthorizationResponse);
     }
   }
 }
