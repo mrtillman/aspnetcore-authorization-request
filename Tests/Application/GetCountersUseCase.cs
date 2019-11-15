@@ -10,7 +10,7 @@ using Services;
 namespace Tests.Application
 {
   [TestClass]
-  public class GetCountersTests
+  public class GetCountersUseCaseTests
   {
     public GetCountersUseCase getCountersUseCase { get; set; }
 

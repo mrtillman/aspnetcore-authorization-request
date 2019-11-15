@@ -9,7 +9,7 @@ using Services;
 namespace Tests.Application
 {
   [TestClass]
-  public class GetTokenTests
+  public class GetTokenUseCaseTests
   {
     public GetTokenUseCase getTokenUseCase { get; set; }
 
