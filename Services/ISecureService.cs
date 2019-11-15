@@ -3,7 +3,7 @@ using Common;
 using Domain;
 
 namespace Services {
-  public interface ISecureApi
+  public interface ISecureService
   {
       string AuthorizationUrl { get; }
       Task<Result<AuthorizationResponse>> GetToken(string code, string state);

@@ -10,10 +10,10 @@ using Infrastructure;
 
 namespace Services
 {
-  public class SecureApi : BaseApi, ISecureApi
+  public class SecureService : BaseService, ISecureService
   {
 
-    public SecureApi(
+    public SecureService(
       IConfiguration Configuration,
       IServerUrls ServerUrls,
       IHttpShim HttpShim)

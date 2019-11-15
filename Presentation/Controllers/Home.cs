@@ -3,12 +3,12 @@ using Services;
 public class HomeController : Controller
 {
 
-  public HomeController(ISecureApi SecureApi)
+  public HomeController(ISecureService SecureService)
   {
-    secureApi = SecureApi;
+    secureService = SecureService;
   }
 
-  private ISecureApi secureApi { get; set; }
+  private ISecureService secureService { get; set; }
 
   public ViewResult Index()
   {
@@ -18,6 +18,6 @@ public class HomeController : Controller
   public void SignIn()
   {
     // 1. Begin Authorization Request
-    Response.Redirect(secureApi.AuthorizationUrl);
+    Response.Redirect(secureService.AuthorizationUrl);
   }
 }

@@ -8,7 +8,7 @@ using Infrastructure;
 
 namespace Services
 {
-  public class CountersService : BaseApi, ICountersService
+  public class CountersService : BaseService, ICountersService
   {
 
     public CountersService(

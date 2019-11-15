@@ -19,7 +19,7 @@ namespace AuthDemo
       services.AddScoped<IServerUrls, ServerUrls>();
       services.AddScoped<HttpClient>();
       services.AddScoped<IHttpShim, HttpShim>();
-      services.AddScoped<ISecureApi, SecureApi>();
+      services.AddScoped<ISecureService, SecureService>();
       services.AddScoped<ICountersService, CountersService>();
       services.AddScoped<GetTokenUseCase>();
       services.AddScoped<GetCountersUseCase>();

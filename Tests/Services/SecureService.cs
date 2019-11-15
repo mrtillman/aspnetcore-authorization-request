@@ -13,7 +13,7 @@ using Common;
 namespace Tests.Services
 {
   [TestClass]
-  public class SecureApiTests
+  public class SecureServiceTests
   {
     [TestInitialize]
     public void TestStartup()
@@ -31,23 +31,23 @@ namespace Tests.Services
          .Setup(http => http.FetchToken(Moq.It.IsAny<AuthorizationRequest>()))
          .Returns(Task.FromResult(mockResponse));
       
-      secureApi = new SecureApi(Mock.Configuration, Mock.ServerUrls, mockHttpShim);
+      secureService = new SecureService(Mock.Configuration, Mock.ServerUrls, mockHttpShim);
     }
-    private SecureApi secureApi { get; set; }
+    private SecureService secureService { get; set; }
 
     private readonly AuthorizationUrlRegex authUrlRegex = new AuthorizationUrlRegex();
 
     [TestMethod]
     public void Should_Get_AuthorizationUrl()
     {
-      Assert.IsTrue(authUrlRegex.IsMatch(secureApi.AuthorizationUrl));
+      Assert.IsTrue(authUrlRegex.IsMatch(secureService.AuthorizationUrl));
     }
 
     [TestMethod]
     public async Task Should_Get_Token(){
-      NameValueCollection querystring = HttpUtility.ParseQueryString(secureApi.AuthorizationUrl);
+      NameValueCollection querystring = HttpUtility.ParseQueryString(secureService.AuthorizationUrl);
       var state = querystring["state"];
-      var AuthorizationResponse = await secureApi.GetToken("code", state);
+      var AuthorizationResponse = await secureService.GetToken("code", state);
       Assert.IsNotNull(AuthorizationResponse.Value.access_token);
     }
   }

@@ -7,16 +7,16 @@ namespace Application
 {
   public class GetTokenUseCase : IUseCase<Task<Result<string>>>
   {
-    public GetTokenUseCase(ISecureApi SecureApi)
+    public GetTokenUseCase(ISecureService SecureService)
     {
-        secureApi = SecureApi;
+        secureService = SecureService;
     }
-    private ISecureApi secureApi { get; set; }
+    private ISecureService secureService { get; set; }
     public string Code { get; set; }
     public string State { get; set; }
     public async Task<Result<string>> Execute()
     {
-      Result<AuthorizationResponse> authResult = await secureApi.GetToken(Code, State);
+      Result<AuthorizationResponse> authResult = await secureService.GetToken(Code, State);
 
       if (authResult.DidFail)
       {

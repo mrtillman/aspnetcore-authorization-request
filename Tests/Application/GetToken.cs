@@ -15,12 +15,12 @@ namespace Tests.Application
 
     [TestMethod]
     public async Task Should_Get_Token() {
-      var mockSecureApi = Mock.Of<ISecureApi>(Moq.MockBehavior.Strict);
+      var mockSecureService = Mock.Of<ISecureService>(Moq.MockBehavior.Strict);
       Result<AuthorizationResponse> mockResult = Result<AuthorizationResponse>.Ok(new AuthorizationResponse());
-      Mock.Get(mockSecureApi)
+      Mock.Get(mockSecureService)
           .Setup(api => api.GetToken(It.IsAny<string>(),It.IsAny<string>()))
           .Returns(Task.FromResult(mockResult));
-      getTokenUseCase = new GetTokenUseCase(mockSecureApi);
+      getTokenUseCase = new GetTokenUseCase(mockSecureService);
       var result = await getTokenUseCase.Execute();
       Assert.IsTrue(result.DidSucceed);
     }

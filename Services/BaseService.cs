@@ -6,10 +6,10 @@ using Infrastructure;
 
 namespace Services
 {
-  public class BaseApi
+  public class BaseService
   {
 
-    public BaseApi(IConfiguration Configuration, IHttpShim HttpShim)
+    public BaseService(IConfiguration Configuration, IHttpShim HttpShim)
     {
       configuration = Configuration;
       httpShim = HttpShim;
