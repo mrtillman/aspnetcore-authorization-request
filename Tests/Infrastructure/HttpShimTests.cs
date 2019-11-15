@@ -19,7 +19,7 @@ namespace Tests.Infrastructure {
     });
 
     [TestMethod]
-    public async Task Should_Perform_HttpGet(){
+    public async Task Should_Fetch_Counters(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       http = new HttpShim(client, Mock.ServerUrls);
@@ -28,7 +28,7 @@ namespace Tests.Infrastructure {
     }
 
     [TestMethod]
-    public async Task Should_Perform_HttpPost(){
+    public async Task Should_Fetch_Token(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       http = new HttpShim(client,Mock.ServerUrls);
