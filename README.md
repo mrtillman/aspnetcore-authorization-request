@@ -6,9 +6,9 @@ Demonstrates [How to Send an Authorization Request](https://github.com/mrtillman
 
 # Prerequisites
 
-When in development mode, be sure to start [counter-culture.api](https://github.com/mrtillman/counter-culture.api) and [counter-culture.secure](https://github.com/mrtillman/counter-culture.secure) on ports `4000` and `5000`, respectively. Also, remember to [register](http://localhost:9000/register) your app locally via [counter-culture.dev](https://github.com/mrtillman/counter-culture.dev).
+When in development mode, be sure to start [counter-culture.api](https://github.com/mrtillman/counter-culture.api) and [counter-culture.secure](https://github.com/mrtillman/counter-culture.secure) on ports `4000` and `5000`, respectively. Also, remember to register your app locally via [counter-culture.dev](https://github.com/mrtillman/counter-culture.dev).
 
-Next, find `Server/appsettings.demo.json`, rename it to `appsettings.json`, and set your environment variables:
+Next, find `Presentation/appsettings.demo.json`, rename it to `appsettings.json`, and set your environment variables:
 
 ```sh
 "CLIENT_ID": "{CLIENT_ID}",
@@ -19,7 +19,7 @@ Next, find `Server/appsettings.demo.json`, rename it to `appsettings.json`, and 
 # Installation
 
 ```sh
-cd Server
+cd Presentation
 
 dotnet restore
 ```
