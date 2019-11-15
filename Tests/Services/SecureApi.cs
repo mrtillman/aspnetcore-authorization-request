@@ -1,5 +1,3 @@
-using System;
-using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 using System.Net.Http;
@@ -10,6 +8,7 @@ using Services;
 using Tests.TestDoubles;
 using Infrastructure;
 using Domain;
+using Common;
 
 namespace Tests.Services
 {
@@ -36,6 +35,8 @@ namespace Tests.Services
     }
     private SecureApi secureApi { get; set; }
 
+    private readonly AuthorizationUrlRegex authUrlRegex = new AuthorizationUrlRegex();
+
     [TestMethod]
     public void Should_Get_AuthorizationUrl()
     {
@@ -49,31 +50,5 @@ namespace Tests.Services
       var AuthorizationResponse = await secureApi.GetToken("code", state);
       Assert.IsNotNull(AuthorizationResponse.Value.access_token);
     }
-
-    #region authUrlRegex
-    private Regex authUrlRegex
-    {
-      get => new Regex($"^((http|https)://({hostNames})/connect/authorize\\?{requestParameters})(.*)$");
-    }
-
-    private string hostNames
-    {
-      get => String.Join("|", new String[]{
-                "localhost:5000",
-                "secure.counter-culture.io",
-                "counter-culture:5000"
-            });
-    }
-    private string requestParameters
-    {
-      get => String.Join("", new String[]{
-                "(?=.*(response_type=(.*)))",
-                "(?=.*(&client_id=(.*)))",
-                "(?=.*(&redirect_uri=(.*)))",
-                "(?=.*(&scope=(.*)))",
-                "(?=.*(&state=(.*)))",
-            });
-    }
-    #endregion
   }
 }
