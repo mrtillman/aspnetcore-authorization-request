@@ -2,9 +2,11 @@ namespace Domain
 {
   public class AuthorizationRequest
   {
-    public string access_token { get; set; }
-    public string expires_in { get; set; }
-    public string token_type { get; set; }
+    public string clientId { get; set; }
+    public string clientSecret { get; set; }
+    public string code { get; set; }
+    public string grantType { get; set; }
+    public string redirectUri { get; set; }
     public string scope { get; set; }
   }
 }
