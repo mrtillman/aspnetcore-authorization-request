@@ -14,7 +14,7 @@ public class OAuth2Controller : Controller
   private GetTokenUseCase getTokenUseCase { get; set; }
   private GetCountersUseCase getCountersUseCase { get; set; }
 
-  private CoreApi coreApi { get; set; }
+  private CountersService countersService { get; set; }
 
   // 2. Authorization Grant
   public async Task<ActionResult> Callback(string code, string state)

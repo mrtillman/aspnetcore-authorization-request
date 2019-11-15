@@ -8,10 +8,10 @@ using Infrastructure;
 
 namespace Services
 {
-  public class CoreApi : BaseApi, ICoreApi
+  public class CountersService : BaseApi, ICountersService
   {
 
-    public CoreApi(
+    public CountersService(
       IConfiguration Configuration, IHttpShim HttpShim)
       : base(Configuration, HttpShim) { }
 

@@ -9,9 +9,9 @@ using Infrastructure;
 namespace Tests.Services
 {
   [TestClass]
-  public class CoreApiTests
+  public class CountersServiceTests
   {
-    private CoreApi coreApi { get; set; }
+    private CountersService service { get; set; }
 
     [TestMethod]
     public async Task Should_Get_Counters()
@@ -29,9 +29,9 @@ namespace Tests.Services
          .Setup(http => http.FetchCounters())
          .Returns(Task.FromResult(mockResponse));
       
-      coreApi = new CoreApi(Mock.Configuration, mockHttpShim);
+      service = new CountersService(Mock.Configuration, mockHttpShim);
 
-      var result = await coreApi.GetCounters();
+      var result = await service.GetCounters();
 
       Assert.IsTrue(result.DidSucceed);
     }

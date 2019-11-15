@@ -8,17 +8,17 @@ namespace Application
 {
   public class GetCountersUseCase : IUseCase<Task<Result<List<Counter>>>>
   {
-    private ICoreApi coreApi { get; set; }
+    private ICountersService countersService { get; set; }
     public string Token { get; set; }
-    public GetCountersUseCase(ICoreApi CoreApi)
+    public GetCountersUseCase(ICountersService CountersService)
     {
-        coreApi = CoreApi;
+        countersService = CountersService;
     }
     public async Task<Result<List<Counter>>> Execute()
     {
-      coreApi.Token = Token;
+      countersService.Token = Token;
 
-      Result<List<Counter>> countersResult = await coreApi.GetCounters();
+      Result<List<Counter>> countersResult = await countersService.GetCounters();
 
       if (countersResult.DidFail)
       {

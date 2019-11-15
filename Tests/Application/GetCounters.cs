@@ -17,14 +17,14 @@ namespace Tests.Application
     [TestMethod]
     public async Task Should_Get_Counters() {
       var token = "TokenValue";
-      var mockCoreApi = Mock.Of<ICoreApi>(Moq.MockBehavior.Strict);
+      var mockCountersService = Mock.Of<ICountersService>(Moq.MockBehavior.Strict);
       Result<List<Counter>> mockResult = Result<List<Counter>>.Ok(new List<Counter>());
-      Mock.Get(mockCoreApi).SetupSet(api => api.Token = token).Verifiable();
-      Mock.Get(mockCoreApi).SetupGet(api => api.Token).Returns(token);
-      Mock.Get(mockCoreApi)
+      Mock.Get(mockCountersService).SetupSet(api => api.Token = token).Verifiable();
+      Mock.Get(mockCountersService).SetupGet(api => api.Token).Returns(token);
+      Mock.Get(mockCountersService)
           .Setup(api => api.GetCounters())
           .Returns(Task.FromResult(mockResult));
-      getCountersUseCase = new GetCountersUseCase(mockCoreApi);
+      getCountersUseCase = new GetCountersUseCase(mockCountersService);
       getCountersUseCase.Token = token;
       var result = await getCountersUseCase.Execute();
       Assert.IsTrue(result.DidSucceed);
