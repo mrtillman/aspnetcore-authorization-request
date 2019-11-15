@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Services;
 using Tests.TestDoubles;
 using Infrastructure;
+using Domain;
 
 namespace Tests.Services
 {
@@ -25,10 +26,10 @@ namespace Tests.Services
         return response;
       });
 
-      var mockHttpShim = Moq.Mock.Of<IHttpShim>();
-
+      var mockHttpShim = Moq.Mock.Of<IHttpShim>(Moq.MockBehavior.Strict);
+      
       Moq.Mock.Get(mockHttpShim)
-         .Setup(shim => shim.FetchToken("connect/token", Moq.It.IsAny<HttpContent>()))
+         .Setup(http => http.FetchToken(Moq.It.IsAny<AuthorizationRequest>()))
          .Returns(Task.FromResult(mockResponse));
       
       secureApi = new SecureApi(Mock.Configuration, Mock.ServerUrls, mockHttpShim);

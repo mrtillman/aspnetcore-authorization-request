@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Infrastructure;
 using Tests.TestDoubles;
+using Domain;
 
 namespace Tests.Infrastructure {
   
@@ -21,9 +22,8 @@ namespace Tests.Infrastructure {
     public async Task Should_Perform_HttpGet(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      httpShim = new HttpShim(client);
-      httpShim.BaseURL = Mock.ServerUrls.API;
-      var response = await httpShim.FetchCounters("v1/counters");
+      httpShim = new HttpShim(client, Mock.ServerUrls);
+      var response = await httpShim.FetchCounters();
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 
@@ -31,9 +31,8 @@ namespace Tests.Infrastructure {
     public async Task Should_Perform_HttpPost(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      httpShim = new HttpShim(client);
-      httpShim.BaseURL = Mock.ServerUrls.SECURE;
-      var response = await httpShim.FetchToken("connect/token", new StringContent(""));
+      httpShim = new HttpShim(client,Mock.ServerUrls);
+      var response = await httpShim.FetchToken(new AuthorizationRequest());
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
   }
