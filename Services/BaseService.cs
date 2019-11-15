@@ -12,11 +12,11 @@ namespace Services
     public BaseService(IConfiguration Configuration, IHttpShim HttpShim)
     {
       configuration = Configuration;
-      httpShim = HttpShim;
+      http = HttpShim;
     }
 
     protected IConfiguration configuration { get; set; }
-    protected IHttpShim httpShim { get; set; }
+    protected IHttpShim http { get; set; }
 
     protected async Task<T> DeserializeResponseStringAs<T>(HttpResponseMessage response)
     {

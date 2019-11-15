@@ -11,7 +11,7 @@ namespace Tests.Infrastructure {
   [TestClass]
   public class HttpShimTests
   {
-    public HttpShim httpShim { get; set; }
+    public HttpShim http { get; set; }
 
     private readonly HttpResponseMessage mockResponse = Mock.SetUp(res => {
       res.StatusCode = HttpStatusCode.OK;
@@ -22,8 +22,8 @@ namespace Tests.Infrastructure {
     public async Task Should_Perform_HttpGet(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      httpShim = new HttpShim(client, Mock.ServerUrls);
-      var response = await httpShim.FetchCounters();
+      http = new HttpShim(client, Mock.ServerUrls);
+      var response = await http.FetchCounters();
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 
@@ -31,8 +31,8 @@ namespace Tests.Infrastructure {
     public async Task Should_Perform_HttpPost(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      httpShim = new HttpShim(client,Mock.ServerUrls);
-      var response = await httpShim.FetchToken(new AuthorizationRequest());
+      http = new HttpShim(client,Mock.ServerUrls);
+      var response = await http.FetchToken(new AuthorizationRequest());
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
   }

@@ -59,7 +59,7 @@ namespace Services
         grantType = "authorization_code"
       };
 
-      var response = await httpShim.FetchToken(authRequest);
+      var response = await http.FetchToken(authRequest);
 
       if (response.StatusCode != HttpStatusCode.OK)
       {

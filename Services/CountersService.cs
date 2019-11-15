@@ -16,13 +16,13 @@ namespace Services
       : base(Configuration, HttpShim) { }
 
     public string Token { 
-      get => httpShim.Token;
-      set { httpShim.Token = value; } 
+      get => http.Token;
+      set { http.Token = value; } 
     }
 
     public async Task<Result<List<Counter>>> GetCounters()
     {
-      var response = await httpShim.FetchCounters();
+      var response = await http.FetchCounters();
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
