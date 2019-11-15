@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
 using System.Net.Http;
+using Domain;
 
 namespace Infrastructure {
   public interface IHttpShim
   {
-    string BaseURL { get; set; }
     string Token { get; set; }
-    Task<HttpResponseMessage> FetchCounters(string Path);
-    Task<HttpResponseMessage> FetchToken(string Path, HttpContent Content);
+    Task<HttpResponseMessage> FetchCounters();
+    Task<HttpResponseMessage> FetchToken(AuthorizationRequest authRequest);
   }
 }
