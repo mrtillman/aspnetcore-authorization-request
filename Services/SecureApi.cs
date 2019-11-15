@@ -1,10 +1,8 @@
 using System;
 using System.Web;
 using System.Net;
-using System.Net.Http;
 using System.Collections.Specialized;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common;
 using Domain;
@@ -19,10 +17,9 @@ namespace Services
       IConfiguration Configuration,
       IServerUrls ServerUrls,
       IHttpShim HttpShim)
-      : base(Configuration, HttpShim)
-    {
-      serverUrls = ServerUrls;
-    }
+      : base(Configuration, HttpShim){ 
+        serverUrls = ServerUrls;
+      }
 
     private IServerUrls serverUrls { get; set; }
 
@@ -53,22 +50,16 @@ namespace Services
         return Result<AuthorizationResponse>.Fail("Forged Authorization Request");
       }
 
-      httpShim.BaseURL = serverUrls.SECURE;
+      var authRequest = new AuthorizationRequest(){
+        code = code,
+        redirectUri = configuration["REDIRECT_URI"].ToString(),
+        clientId = configuration["CLIENT_ID"].ToString(),
+        clientSecret = configuration["CLIENT_SECRET"].ToString(),
+        scope = "openid",
+        grantType = "authorization_code"
+      };
 
-      var redirect_uri = configuration["REDIRECT_URI"].ToString();
-      var client_id = configuration["CLIENT_ID"].ToString();
-      var client_secret = configuration["CLIENT_SECRET"].ToString();
-      var keyValues = new List<KeyValuePair<string, string>>();
-
-      keyValues.Add(new KeyValuePair<string, string>("code", code));
-      keyValues.Add(new KeyValuePair<string, string>("redirect_uri", redirect_uri));
-      keyValues.Add(new KeyValuePair<string, string>("client_id", client_id));
-      keyValues.Add(new KeyValuePair<string, string>("client_secret", client_secret));
-      keyValues.Add(new KeyValuePair<string, string>("scope", "openid"));
-      keyValues.Add(new KeyValuePair<string, string>("grant_type", "authorization_code"));
-      var content = new FormUrlEncodedContent(keyValues);
-
-      var response = await httpShim.FetchToken("connect/token", content);
+      var response = await httpShim.FetchToken(authRequest);
 
       if (response.StatusCode != HttpStatusCode.OK)
       {

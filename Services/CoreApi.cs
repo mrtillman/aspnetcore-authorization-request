@@ -12,15 +12,8 @@ namespace Services
   {
 
     public CoreApi(
-      IConfiguration Configuration,
-      IServerUrls ServerUrls,
-      IHttpShim HttpShim)
-      : base(Configuration, HttpShim)
-    {
-      serverUrls = ServerUrls;
-    }
-
-    private IServerUrls serverUrls { get; set; }
+      IConfiguration Configuration, IHttpShim HttpShim)
+      : base(Configuration, HttpShim) { }
 
     public string Token { 
       get => httpShim.Token;
@@ -29,10 +22,7 @@ namespace Services
 
     public async Task<Result<List<Counter>>> GetCounters()
     {
-      
-      httpShim.BaseURL = serverUrls.API;
-
-      var response = await httpShim.FetchCounters("v1/counters");
+      var response = await httpShim.FetchCounters();
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
