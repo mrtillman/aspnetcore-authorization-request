@@ -28,7 +28,7 @@ namespace Tests.Services
       var mockHttpShim = Moq.Mock.Of<IHttpShim>();
 
       Moq.Mock.Get(mockHttpShim)
-         .Setup(shim => shim.Post("connect/token", Moq.It.IsAny<HttpContent>()))
+         .Setup(shim => shim.FetchToken("connect/token", Moq.It.IsAny<HttpContent>()))
          .Returns(Task.FromResult(mockResponse));
       
       secureApi = new SecureApi(Mock.Configuration, Mock.ServerUrls, mockHttpShim);

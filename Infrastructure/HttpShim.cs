@@ -23,13 +23,13 @@ namespace Infrastructure {
         client.DefaultRequestHeaders.Add("Authorization", $"bearer {token}");
       } 
     }
-    public async Task<HttpResponseMessage> Get(string Path)
+    public async Task<HttpResponseMessage> FetchCounters(string Path)
     {
       var resourceUri = new Uri(baseUri, Path);
       return await client.GetAsync(resourceUri.ToString());
     }
 
-    public async Task<HttpResponseMessage> Post(string Path, HttpContent Content)
+    public async Task<HttpResponseMessage> FetchToken(string Path, HttpContent Content)
     {
       var resourceUri = new Uri(baseUri, Path);
       return await client.PostAsync(resourceUri.ToString(), Content);

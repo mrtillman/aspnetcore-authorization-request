@@ -68,7 +68,7 @@ namespace Services
       keyValues.Add(new KeyValuePair<string, string>("grant_type", "authorization_code"));
       var content = new FormUrlEncodedContent(keyValues);
 
-      var response = await httpShim.Post("connect/token", content);
+      var response = await httpShim.FetchToken("connect/token", content);
 
       if (response.StatusCode != HttpStatusCode.OK)
       {

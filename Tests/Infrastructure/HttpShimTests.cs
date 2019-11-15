@@ -23,7 +23,7 @@ namespace Tests.Infrastructure {
       var client = new HttpClient(mockHandler.Object);
       httpShim = new HttpShim(client);
       httpShim.BaseURL = Mock.ServerUrls.API;
-      var response = await httpShim.Get("v1/counters");
+      var response = await httpShim.FetchCounters("v1/counters");
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 
@@ -33,7 +33,7 @@ namespace Tests.Infrastructure {
       var client = new HttpClient(mockHandler.Object);
       httpShim = new HttpShim(client);
       httpShim.BaseURL = Mock.ServerUrls.SECURE;
-      var response = await httpShim.Post("connect/token", new StringContent(""));
+      var response = await httpShim.FetchToken("connect/token", new StringContent(""));
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
   }

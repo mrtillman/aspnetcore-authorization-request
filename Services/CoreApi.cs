@@ -32,7 +32,7 @@ namespace Services
       
       httpShim.BaseURL = serverUrls.API;
 
-      var response = await httpShim.Get("v1/counters");
+      var response = await httpShim.FetchCounters("v1/counters");
 
       if (response.StatusCode != HttpStatusCode.OK)
       {

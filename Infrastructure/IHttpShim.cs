@@ -6,7 +6,7 @@ namespace Infrastructure {
   {
     string BaseURL { get; set; }
     string Token { get; set; }
-    Task<HttpResponseMessage> Get(string Path);
-    Task<HttpResponseMessage> Post(string Path, HttpContent Content);
+    Task<HttpResponseMessage> FetchCounters(string Path);
+    Task<HttpResponseMessage> FetchToken(string Path, HttpContent Content);
   }
 }

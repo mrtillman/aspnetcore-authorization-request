@@ -26,7 +26,7 @@ namespace Tests.Services
       var mockHttpShim = Moq.Mock.Of<IHttpShim>();
 
       Moq.Mock.Get(mockHttpShim)
-         .Setup(shim => shim.Get("v1/counters"))
+         .Setup(shim => shim.FetchCounters("v1/counters"))
          .Returns(Task.FromResult(mockResponse));
       
       coreApi = new CoreApi(Mock.Configuration, Mock.ServerUrls, mockHttpShim);
