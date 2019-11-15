@@ -19,10 +19,10 @@ namespace Tests.Application
       var token = "TokenValue";
       var mockCountersService = Mock.Of<ICountersService>(Moq.MockBehavior.Strict);
       Result<List<Counter>> mockResult = Result<List<Counter>>.Ok(new List<Counter>());
-      Mock.Get(mockCountersService).SetupSet(api => api.Token = token).Verifiable();
-      Mock.Get(mockCountersService).SetupGet(api => api.Token).Returns(token);
+      Mock.Get(mockCountersService).SetupSet(service => service.Token = token).Verifiable();
+      Mock.Get(mockCountersService).SetupGet(service => service.Token).Returns(token);
       Mock.Get(mockCountersService)
-          .Setup(api => api.GetCounters())
+          .Setup(service => service.GetCounters())
           .Returns(Task.FromResult(mockResult));
       getCountersUseCase = new GetCountersUseCase(mockCountersService);
       getCountersUseCase.Token = token;

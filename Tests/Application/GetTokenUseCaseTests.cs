@@ -18,7 +18,7 @@ namespace Tests.Application
       var mockSecureService = Mock.Of<ISecureService>(Moq.MockBehavior.Strict);
       Result<AuthorizationResponse> mockResult = Result<AuthorizationResponse>.Ok(new AuthorizationResponse());
       Mock.Get(mockSecureService)
-          .Setup(api => api.GetToken(It.IsAny<string>(),It.IsAny<string>()))
+          .Setup(service => service.GetToken(It.IsAny<string>(),It.IsAny<string>()))
           .Returns(Task.FromResult(mockResult));
       getTokenUseCase = new GetTokenUseCase(mockSecureService);
       var result = await getTokenUseCase.Execute();
