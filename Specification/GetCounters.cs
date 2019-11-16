@@ -1,40 +1,35 @@
-﻿using Moq;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Gherkin.Quick;
 using Application;
-using Domain;
 using Common;
-using Services;
+using Domain;
 
 namespace Specification
 {
-
+    
     [FeatureFile("./GetCounters.feature")]
     public sealed class GetCounters : TestBase
     {
         private readonly GetCountersUseCase usecase = new GetCountersUseCase(TestBase.MockCountersService());
         
-        private Result<List<Counter>> countersResult { get; set; }
+        private Result<List<Counter>> result { get; set; }
 
-        [Fact]
         [Given("an access token")]
         public void An_access_token()
         {
             usecase.Token = _token;
         }
     
-        [Fact]
         [When("I request counters")]
-        private void I_request_counters(){
-            countersResult = usecase.Execute().Result;
+        public async Task I_request_counters(){
+            result = await usecase.Execute();
         }
 
-        [Fact]
         [Then("I should receive counter data")]
-	    private void I_should_receive_counter_data(){
-            Assert.True(countersResult.DidSucceed);
+	    public void I_should_receive_counter_data(){
+            Assert.True(result.DidSucceed);
         }
     }
 }
