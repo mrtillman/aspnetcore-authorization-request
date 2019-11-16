@@ -1,5 +1,5 @@
 Feature: GetCounters
-       In order to browser Counters
+       In order to browse Counters
        As an authenticated user
        I want to retrieve counter data using the CountersService
 
