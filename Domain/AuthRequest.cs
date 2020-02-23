@@ -8,5 +8,6 @@ namespace Domain
     public string grantType { get; set; }
     public string redirectUri { get; set; }
     public string scope { get; set; }
+    public string refreshToken { get; set; }
   }
 }
