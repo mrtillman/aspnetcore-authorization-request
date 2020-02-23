@@ -19,15 +19,7 @@ namespace Application
     }
     public async Task<Result<List<Counter>>> Execute()
     {
-
-      Result<List<Counter>> countersResult = await countersService.GetCounters();
-
-      if (countersResult.DidFail)
-      {
-        return Result<List<Counter>>.Fail(countersResult.ErrorMessage);
-      }
-
-      return Result<List<Counter>>.Ok(countersResult.Value);
+      return await countersService.GetCounters();
     }
   }
 }
