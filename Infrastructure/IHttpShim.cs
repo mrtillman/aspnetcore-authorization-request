@@ -8,5 +8,6 @@ namespace Infrastructure {
     string Token { get; set; }
     Task<HttpResponseMessage> FetchCounters();
     Task<HttpResponseMessage> FetchToken(AuthorizationRequest authRequest);
+    Task<HttpResponseMessage> RenewToken(AuthorizationRequest authRequest);
   }
 }

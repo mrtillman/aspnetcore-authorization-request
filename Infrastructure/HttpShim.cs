@@ -48,6 +48,18 @@ namespace Infrastructure {
       var requestParameters = new FormUrlEncodedContent(keyValues);
       return await client.PostAsync($"{serverUrls.SECURE}/connect/token", requestParameters);
     }
+
+    public async Task<HttpResponseMessage> RenewToken(AuthorizationRequest authRequest)
+    {
+      NameValueCollection querystring = HttpUtility.ParseQueryString(string.Empty);
+      var keyValues = new List<KeyValuePair<string, string>>();
+      keyValues.Add(new KeyValuePair<string, string>("client_id", authRequest.clientId));
+      keyValues.Add(new KeyValuePair<string, string>("client_secret", authRequest.clientSecret));
+      keyValues.Add(new KeyValuePair<string, string>("grant_type", authRequest.grantType));
+      keyValues.Add(new KeyValuePair<string, string>("refresh_token", authRequest.refreshToken));
+      var requestParameters = new FormUrlEncodedContent(keyValues);
+      return await client.PostAsync($"{serverUrls.SECURE}/connect/token", requestParameters);
+    }
   }
 
 }
