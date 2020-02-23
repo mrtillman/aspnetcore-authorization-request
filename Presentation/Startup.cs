@@ -23,6 +23,7 @@ namespace AuthDemo
       services.AddScoped<ICountersService, CountersService>();
       services.AddScoped<GetTokenUseCase>();
       services.AddScoped<GetCountersUseCase>();
+      services.AddScoped<RenewTokenUseCase>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
