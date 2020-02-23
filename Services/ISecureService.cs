@@ -7,5 +7,6 @@ namespace Services {
   {
       string AuthorizationUrl { get; }
       Task<Result<AuthorizationResponse>> GetToken(string code, string state);
+      Task<Result<AuthorizationResponse>> RenewToken(string refreshToken);
   }
 }

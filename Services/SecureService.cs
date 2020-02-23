@@ -36,7 +36,7 @@ namespace Services
         querystring["response_type"] = "code";
         querystring["client_id"] = client_id;
         querystring["redirect_uri"] = redirect_uri;
-        querystring["scope"] = "openid";
+        querystring["scope"] = "openid offline_access";
         querystring["state"] = _state = Guid.NewGuid().ToString();
         var parameters = querystring.ToString();
         return $"{baseUrl}/connect/authorize?{parameters}";
@@ -60,6 +60,27 @@ namespace Services
       };
 
       var response = await http.FetchToken(authRequest);
+
+      if (response.StatusCode != HttpStatusCode.OK)
+      {
+        return Result<AuthorizationResponse>.Fail(response.ReasonPhrase);
+      }
+
+      var AuthorizationResponse = await DeserializeResponseStringAs<AuthorizationResponse>(response);
+
+      return Result<AuthorizationResponse>.Ok(AuthorizationResponse);
+    }
+
+    public async Task<Result<AuthorizationResponse>> RenewToken(string refreshToken)
+    {
+      var authRequest = new AuthorizationRequest(){
+        clientId = configuration["CLIENT_ID"].ToString(),
+        clientSecret = configuration["CLIENT_SECRET"].ToString(),
+        grantType = "refresh_token",
+        refreshToken = refreshToken
+      };
+
+      var response = await http.RenewToken(authRequest);
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
