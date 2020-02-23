@@ -30,6 +30,10 @@ namespace Tests.Services
       Moq.Mock.Get(mockHttpShim)
          .Setup(http => http.FetchToken(Moq.It.IsAny<AuthorizationRequest>()))
          .Returns(Task.FromResult(mockResponse));
+
+      Moq.Mock.Get(mockHttpShim)
+         .Setup(http => http.RenewToken(Moq.It.IsAny<AuthorizationRequest>()))
+         .Returns(Task.FromResult(mockResponse));
       
       secureService = new SecureService(Mock.Configuration, Mock.ServerUrls, mockHttpShim);
     }
@@ -48,7 +52,15 @@ namespace Tests.Services
       NameValueCollection querystring = HttpUtility.ParseQueryString(secureService.AuthorizationUrl);
       var state = querystring["state"];
       var AuthorizationResponse = await secureService.GetToken("code", state);
-      Assert.IsNotNull(AuthorizationResponse.Value.access_token);
+      Assert.IsNotNull(AuthorizationResponse.Value);
+    }
+
+    [TestMethod]
+    public async Task Should_Renew_Token(){
+      NameValueCollection querystring = HttpUtility.ParseQueryString(secureService.AuthorizationUrl);
+      var state = querystring["state"];
+      var AuthorizationResponse = await secureService.RenewToken("refr3sh-tok3n");
+      Assert.IsNotNull(AuthorizationResponse.Value);
     }
   }
 }
