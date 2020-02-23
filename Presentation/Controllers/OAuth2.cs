@@ -6,21 +6,28 @@ using Services;
 public class OAuth2Controller : Controller
 {
 
-  public OAuth2Controller(GetTokenUseCase GetTokenUseCase, GetCountersUseCase GetCountersUseCase)
+  public OAuth2Controller(
+    GetTokenUseCase GetTokenUseCase, 
+    GetCountersUseCase GetCountersUseCase,
+    RenewTokenUseCase RenewTokenUseCase)
   {
     getTokenUseCase = GetTokenUseCase;
     getCountersUseCase = GetCountersUseCase;
+    renewTokenUseCase = RenewTokenUseCase;
   }
   private GetTokenUseCase getTokenUseCase { get; set; }
   private GetCountersUseCase getCountersUseCase { get; set; }
+  private RenewTokenUseCase renewTokenUseCase { get; set; }
+
+  private static string refreshToken;
 
   private CountersService countersService { get; set; }
 
-  // 2. Authorization Grant
+  // 2. Authorization Grant (inbound)
   public async Task<ActionResult> Callback(string code, string state)
   {
 
-    // 3. Authorization Grant
+    // 3. Authorization Grant (outbound)
     
     getTokenUseCase.Code = code;
     getTokenUseCase.State = state;
@@ -31,11 +38,15 @@ public class OAuth2Controller : Controller
     {
       return Unauthorized(tokenResult.ErrorMessage);
     }
+    
+    var authResponse  = tokenResult.Value;
+    
+    refreshToken = authResponse.refresh_token;
 
-    // 4. Access Token
-    getCountersUseCase.Token = tokenResult.Value;
+    // 4. Access Token (inbound)
+    getCountersUseCase.Token = authResponse.access_token;
 
-    // 5. Access Token
+    // 5. Access Token (outbound)
     var countersResult = await getCountersUseCase.Execute();
 
     if (countersResult.DidFail)
@@ -48,4 +59,19 @@ public class OAuth2Controller : Controller
 
   }
 
+  [Route("/renewtoken")]
+  public async Task<ActionResult> RenewToken()
+  {
+    if(string.IsNullOrEmpty(refreshToken)) return Ok();
+    
+    renewTokenUseCase.RefreshToken = refreshToken;
+
+    var result = await renewTokenUseCase.Execute();
+    
+    if(result.DidFail){
+      return BadRequest(result.ErrorMessage);
+    }
+
+    return Ok(result.Value);
+  }
 }
