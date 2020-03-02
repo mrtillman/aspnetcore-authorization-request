@@ -62,14 +62,14 @@ public class OAuth2Controller : Controller
   [Route("/renewtoken")]
   public async Task<ActionResult> RenewToken()
   {
-    if(string.IsNullOrEmpty(refreshToken)) return Ok();
+    if(string.IsNullOrEmpty(refreshToken)) return Redirect("/");
     
     renewTokenUseCase.RefreshToken = refreshToken;
 
     var result = await renewTokenUseCase.Execute();
     
     if(result.DidFail){
-      return BadRequest(result.ErrorMessage);
+      return Redirect("/");
     }
 
     return Ok(result.Value);
