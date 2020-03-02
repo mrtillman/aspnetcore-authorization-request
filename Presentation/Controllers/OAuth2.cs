@@ -19,10 +19,6 @@ public class OAuth2Controller : Controller
   private GetCountersUseCase getCountersUseCase { get; set; }
   private RenewTokenUseCase renewTokenUseCase { get; set; }
 
-  private static string refreshToken;
-
-  private CountersService countersService { get; set; }
-
   // 2. Authorization Grant (inbound)
   public async Task<ActionResult> Callback(string code, string state)
   {
@@ -41,7 +37,7 @@ public class OAuth2Controller : Controller
     
     var authResponse  = tokenResult.Value;
     
-    refreshToken = authResponse.refresh_token;
+    renewTokenUseCase.RefreshToken = authResponse.refresh_token;
 
     // 4. Access Token (inbound)
     getCountersUseCase.Token = authResponse.access_token;
@@ -62,10 +58,6 @@ public class OAuth2Controller : Controller
   [Route("/renewtoken")]
   public async Task<ActionResult> RenewToken()
   {
-    if(string.IsNullOrEmpty(refreshToken)) return Redirect("/");
-    
-    renewTokenUseCase.RefreshToken = refreshToken;
-
     var result = await renewTokenUseCase.Execute();
     
     if(result.DidFail){
