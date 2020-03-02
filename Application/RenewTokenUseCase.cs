@@ -7,15 +7,32 @@ namespace Application
 {
   public class RenewTokenUseCase : IUseCase<Task<Result<AuthorizationResponse>>>
   {
-    public RenewTokenUseCase(ISecureService SecureService)
+    public RenewTokenUseCase(ISecureService SecureService, ICacheService CacheService)
     {
         secureService = SecureService;
+        cacheService = CacheService;
     }
     private ISecureService secureService { get; set; }
-    public string RefreshToken { get; set; }
+    private ICacheService cacheService { get; set; }
+    public string RefreshToken { 
+      get {
+        return cacheService.GetRefreshToken();
+      } 
+      set {
+        cacheService.SetRefreshToken(value);
+      }
+    }
     public async Task<Result<AuthorizationResponse>> Execute()
     {
-      return await secureService.RenewToken(RefreshToken);
+      if(string.IsNullOrEmpty(RefreshToken)) {
+        return Result<AuthorizationResponse>.Fail("Please Sign In");
+      }
+      var result = await secureService.RenewToken(RefreshToken);
+      if(result.DidFail){
+        return Result<AuthorizationResponse>.Fail(result.ErrorMessage);
+      }
+      RefreshToken = result.Value.refresh_token;
+      return result;
     }
   }
 }
