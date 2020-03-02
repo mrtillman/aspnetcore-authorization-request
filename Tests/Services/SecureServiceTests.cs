@@ -25,17 +25,17 @@ namespace Tests.Services
         return response;
       });
 
-      var mockHttpShim = Moq.Mock.Of<IHttpShim>(Moq.MockBehavior.Strict);
+      var mockServiceAgent = Moq.Mock.Of<IServiceAgent>(Moq.MockBehavior.Strict);
       
-      Moq.Mock.Get(mockHttpShim)
-         .Setup(http => http.FetchToken(Moq.It.IsAny<AuthorizationRequest>()))
+      Moq.Mock.Get(mockServiceAgent)
+         .Setup(agent => agent.FetchToken(Moq.It.IsAny<AuthorizationRequest>()))
          .Returns(Task.FromResult(mockResponse));
 
-      Moq.Mock.Get(mockHttpShim)
-         .Setup(http => http.RenewToken(Moq.It.IsAny<AuthorizationRequest>()))
+      Moq.Mock.Get(mockServiceAgent)
+         .Setup(agent => agent.RenewToken(Moq.It.IsAny<AuthorizationRequest>()))
          .Returns(Task.FromResult(mockResponse));
       
-      secureService = new SecureService(Mock.Configuration, Mock.ServerUrls, mockHttpShim);
+      secureService = new SecureService(Mock.Configuration, Mock.ServerUrls, mockServiceAgent);
     }
     private SecureService secureService { get; set; }
 

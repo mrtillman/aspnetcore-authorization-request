@@ -12,17 +12,17 @@ namespace Services
   {
 
     public CountersService(
-      IConfiguration Configuration, IHttpShim HttpShim)
-      : base(Configuration, HttpShim) { }
+      IConfiguration Configuration, IServiceAgent ServiceAgent)
+      : base(Configuration, ServiceAgent) { }
 
     public string Token { 
-      get => http.Token;
-      set { http.Token = value; } 
+      get => agent.Token;
+      set { agent.Token = value; } 
     }
 
     public async Task<Result<List<Counter>>> GetCounters()
     {
-      var response = await http.FetchCounters();
+      var response = await agent.FetchCounters();
 
       if (response.StatusCode != HttpStatusCode.OK)
       {

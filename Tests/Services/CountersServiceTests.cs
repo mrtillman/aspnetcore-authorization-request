@@ -23,13 +23,13 @@ namespace Tests.Services
         return response;
       });
       
-      var mockHttpShim = Moq.Mock.Of<IHttpShim>();
+      var mockServiceAgent = Moq.Mock.Of<IServiceAgent>();
 
-      Moq.Mock.Get(mockHttpShim)
-         .Setup(http => http.FetchCounters())
+      Moq.Mock.Get(mockServiceAgent)
+         .Setup(agent => agent.FetchCounters())
          .Returns(Task.FromResult(mockResponse));
       
-      service = new CountersService(Mock.Configuration, mockHttpShim);
+      service = new CountersService(Mock.Configuration, mockServiceAgent);
 
       var result = await service.GetCounters();
 

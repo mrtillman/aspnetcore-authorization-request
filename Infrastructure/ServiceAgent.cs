@@ -8,8 +8,8 @@ using Common;
 using Domain;
 
 namespace Infrastructure {
-  public class HttpShim : IHttpShim {
-    public HttpShim(HttpClient Client, IServerUrls ServerUrls)
+  public class ServiceAgent : IServiceAgent {
+    public ServiceAgent(HttpClient Client, IServerUrls ServerUrls)
     {
         client = Client;
         serverUrls = ServerUrls;

@@ -18,7 +18,7 @@ namespace AuthDemo
       services.AddMvc();
       services.AddScoped<IServerUrls, ServerUrls>();
       services.AddScoped<HttpClient>();
-      services.AddScoped<IHttpShim, HttpShim>();
+      services.AddScoped<IServiceAgent, ServiceAgent>();
       services.AddScoped<ICacheService, CacheService>();
       services.AddScoped<ISecureService, SecureService>();
       services.AddScoped<ICountersService, CountersService>();

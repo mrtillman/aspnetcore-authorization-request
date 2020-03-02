@@ -16,8 +16,8 @@ namespace Services
     public SecureService(
       IConfiguration Configuration,
       IServerUrls ServerUrls,
-      IHttpShim HttpShim)
-      : base(Configuration, HttpShim){ 
+      IServiceAgent ServiceAgent)
+      : base(Configuration, ServiceAgent){ 
         serverUrls = ServerUrls;
       }
 
@@ -59,7 +59,7 @@ namespace Services
         grantType = "authorization_code"
       };
 
-      var response = await http.FetchToken(authRequest);
+      var response = await agent.FetchToken(authRequest);
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
@@ -80,7 +80,7 @@ namespace Services
         refreshToken = refreshToken
       };
 
-      var response = await http.RenewToken(authRequest);
+      var response = await agent.RenewToken(authRequest);
 
       if (response.StatusCode != HttpStatusCode.OK)
       {

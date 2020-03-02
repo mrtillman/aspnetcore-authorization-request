@@ -9,9 +9,9 @@ using Domain;
 namespace Tests.Infrastructure {
   
   [TestClass]
-  public class HttpShimTests
+  public class ServiceAgentTests
   {
-    public HttpShim http { get; set; }
+    public ServiceAgent agent { get; set; }
 
     private readonly HttpResponseMessage mockResponse = Mock.SetUp(res => {
       res.StatusCode = HttpStatusCode.OK;
@@ -22,8 +22,8 @@ namespace Tests.Infrastructure {
     public async Task Should_Fetch_Counters(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      http = new HttpShim(client, Mock.ServerUrls);
-      var response = await http.FetchCounters();
+      agent = new ServiceAgent(client, Mock.ServerUrls);
+      var response = await agent.FetchCounters();
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 
@@ -31,8 +31,8 @@ namespace Tests.Infrastructure {
     public async Task Should_Fetch_Token(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      http = new HttpShim(client,Mock.ServerUrls);
-      var response = await http.FetchToken(new AuthorizationRequest());
+      agent = new ServiceAgent(client,Mock.ServerUrls);
+      var response = await agent.FetchToken(new AuthorizationRequest());
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
   }

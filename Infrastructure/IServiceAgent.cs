@@ -3,7 +3,7 @@ using System.Net.Http;
 using Domain;
 
 namespace Infrastructure {
-  public interface IHttpShim
+  public interface IServiceAgent
   {
     string Token { get; set; }
     Task<HttpResponseMessage> FetchCounters();
