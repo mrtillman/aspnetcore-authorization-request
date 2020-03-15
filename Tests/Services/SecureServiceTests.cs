@@ -57,8 +57,6 @@ namespace Tests.Services
 
     [TestMethod]
     public async Task Should_Renew_Token(){
-      NameValueCollection querystring = HttpUtility.ParseQueryString(secureService.AuthorizationUrl);
-      var state = querystring["state"];
       var AuthorizationResponse = await secureService.RenewToken("refr3sh-tok3n");
       Assert.IsNotNull(AuthorizationResponse.Value);
     }
