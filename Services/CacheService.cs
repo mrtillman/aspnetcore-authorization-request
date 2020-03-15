@@ -10,7 +10,7 @@ namespace Services
   {
     static Dictionary<KEYS, object> cache = new Dictionary<KEYS, object>();
     public void Clear(){
-      CacheService.cache = new Dictionary<KEYS, object>();
+      CacheService.cache.Clear();
     }
 
     public T GetValue<T>(KEYS key)
