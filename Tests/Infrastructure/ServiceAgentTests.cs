@@ -31,8 +31,17 @@ namespace Tests.Infrastructure {
     public async Task Should_Fetch_Token(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      agent = new ServiceAgent(client,Mock.ServerUrls);
+      agent = new ServiceAgent(client, Mock.ServerUrls);
       var response = await agent.FetchToken(new AuthorizationRequest());
+      Assert.IsTrue(response.IsSuccessStatusCode);
+    }
+
+    [TestMethod]
+    public async Task Should_Renew_Token(){
+      var mockHandler = Mock.HttpMessageHandler(mockResponse);
+      var client = new HttpClient(mockHandler.Object);
+      agent = new ServiceAgent(client, Mock.ServerUrls);
+      var response = await agent.RenewToken(new AuthorizationRequest());
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
   }

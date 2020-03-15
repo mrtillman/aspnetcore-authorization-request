@@ -11,7 +11,7 @@ namespace Tests.TestDoubles
     public static Moq.Mock<HttpMessageHandler> HttpMessageHandler(HttpResponseMessage mockResponse)
       => TestDoubles.Mock.SetUp(handler => {
           handler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
+                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(),
                     ItExpr.IsAny<CancellationToken>()
