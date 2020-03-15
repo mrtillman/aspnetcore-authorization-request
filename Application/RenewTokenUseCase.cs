@@ -16,10 +16,10 @@ namespace Application
     private ICacheService cacheService { get; set; }
     public string RefreshToken { 
       get {
-        return cacheService.GetRefreshToken();
+        return cacheService.GetValue<string>(KEYS.REFRESH_TOKEN);
       } 
       set {
-        cacheService.SetRefreshToken(value);
+        cacheService.SetValue(KEYS.REFRESH_TOKEN, value);
       }
     }
     public async Task<Result<AuthorizationResponse>> Execute()

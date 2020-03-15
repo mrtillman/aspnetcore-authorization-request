@@ -6,10 +6,8 @@ using Domain;
 namespace Services {
   public interface ICacheService
   {
+    void Clear();
     T GetValue<T>(KEYS key);
     void SetValue<T>(KEYS key, T value);
-    
-    void SetRefreshToken(string value);
-    string GetRefreshToken();
   }
 }
