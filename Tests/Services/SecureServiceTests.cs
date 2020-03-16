@@ -42,13 +42,13 @@ namespace Tests.Services
     private readonly AuthorizationUrlRegex authUrlRegex = new AuthorizationUrlRegex();
 
     [TestMethod]
-    public void Should_Get_AuthorizationUrl()
+    public void Should_GetAuthorizationUrl()
     {
       Assert.IsTrue(authUrlRegex.IsMatch(secureService.AuthorizationUrl));
     }
 
     [TestMethod]
-    public async Task Should_Get_Token(){
+    public async Task Should_GetToken(){
       NameValueCollection querystring = HttpUtility.ParseQueryString(secureService.AuthorizationUrl);
       var state = querystring["state"];
       var AuthorizationResponse = await secureService.GetToken("code", state);
@@ -56,7 +56,7 @@ namespace Tests.Services
     }
 
     [TestMethod]
-    public async Task Should_Renew_Token(){
+    public async Task Should_RenewToken(){
       var AuthorizationResponse = await secureService.RenewToken("refr3sh-tok3n");
       Assert.IsNotNull(AuthorizationResponse.Value);
     }

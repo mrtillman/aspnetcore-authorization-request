@@ -25,7 +25,7 @@ namespace Tests.Presentation {
     }
 
     [TestMethod]
-    public void Should_Load_HomePage(){
+    public void IndexShould_Load(){
       controller = new HomeController(null, cacheMock.Object);
 
       var result = controller.Index();
@@ -34,7 +34,7 @@ namespace Tests.Presentation {
     }
 
     [TestMethod]
-    public void Should_ClearCache_OnIndex(){
+    public void IndexShould_ClearCache(){
       controller = new HomeController(null, cacheMock.Object);
 
       var result = controller.Index();
@@ -43,17 +43,17 @@ namespace Tests.Presentation {
     }
 
     [TestMethod]
-    public void Should_RedirectToAuthUrl_OnSignIn(){
+    public void SignInShould_RedirectToAuthUrl(){
+      var authUrl = secureServiceMock.Object.AuthorizationUrl;
       controller = new HomeController(secureServiceMock.Object, cacheMock.Object);
       controller.ControllerContext = new ControllerContext();
       var httpContext = new Mock<HttpContext>();
-      httpContext.Setup(ctx => ctx.Response.Redirect(It.IsAny<string>())).Verifiable();
+      httpContext.Setup(ctx => ctx.Response.Redirect(authUrl)).Verifiable();
       controller.ControllerContext.HttpContext = httpContext.Object;
 
       controller.SignIn();
 
-      secureServiceMock.Verify(service => service.AuthorizationUrl, Times.Once);
-      httpContext.Verify(ctx => ctx.Response.Redirect(It.IsAny<string>()), Times.Once);
+      httpContext.Verify(ctx => ctx.Response.Redirect(authUrl), Times.Once);
     }
   }
 }

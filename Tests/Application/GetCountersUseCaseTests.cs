@@ -15,7 +15,7 @@ namespace Tests.Application
     public GetCountersUseCase getCountersUseCase { get; set; }
 
     [TestMethod]
-    public async Task Should_Get_Counters() {
+    public async Task Should_GetCounters() {
       var token = "TokenValue";
       var mockCountersService = Mock.Of<ICountersService>(Moq.MockBehavior.Strict);
       Result<List<Counter>> mockResult = Result<List<Counter>>.Ok(new List<Counter>());

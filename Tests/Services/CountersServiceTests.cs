@@ -14,7 +14,7 @@ namespace Tests.Services
     private CountersService service { get; set; }
 
     [TestMethod]
-    public async Task Should_Get_Counters()
+    public async Task Should_GetCounters()
     {
       var mockResponse = Mock.SetUp(response =>
       {

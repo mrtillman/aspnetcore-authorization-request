@@ -15,14 +15,8 @@ namespace Tests.Presentation {
   {
     
     public OAuth2Controller controller { get; set; }
-
     public RenewTokenUseCase renewTokenUseCase { get; set; }
     private Mock<ICacheService> cacheServiceMock { get; set; }
-
-    [TestInitialize]
-    public void TestSetup(){
-      var result = Result<AuthorizationResponse>.Ok(new AuthorizationResponse());
-    }
 
     [TestMethod]
     public async Task RenewTokenShould_RedirectHome_WhenRefreshTokenIsNull(){

@@ -15,7 +15,7 @@ namespace Tests.Services
     private ICacheService cacheService { get; set; }
 
     [TestMethod]
-    public void Should_Cache_Access_Token(){
+    public void Should_CacheAccessToken(){
       cacheService.SetValue(KEYS.ACCESS_TOKEN, "access_token");
 
       var result = cacheService.GetValue<string>(KEYS.ACCESS_TOKEN);
@@ -24,7 +24,7 @@ namespace Tests.Services
     }
 
     [TestMethod]
-    public void Should_Cache_Refresh_Token(){
+    public void Should_CacheRefreshToken(){
       cacheService.SetValue(KEYS.REFRESH_TOKEN, "refresh_token");
 
       var result = cacheService.GetValue<string>(KEYS.REFRESH_TOKEN);

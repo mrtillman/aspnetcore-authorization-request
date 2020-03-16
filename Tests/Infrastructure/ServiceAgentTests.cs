@@ -19,7 +19,7 @@ namespace Tests.Infrastructure {
     });
 
     [TestMethod]
-    public async Task Should_Fetch_Counters(){
+    public async Task Should_FetchCounters(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       agent = new ServiceAgent(client, Mock.ServerUrls);
@@ -28,7 +28,7 @@ namespace Tests.Infrastructure {
     }
 
     [TestMethod]
-    public async Task Should_Fetch_Token(){
+    public async Task Should_FetchToken(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       agent = new ServiceAgent(client, Mock.ServerUrls);
@@ -37,7 +37,7 @@ namespace Tests.Infrastructure {
     }
 
     [TestMethod]
-    public async Task Should_Renew_Token(){
+    public async Task Should_RenewToken(){
       var mockHandler = Mock.HttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       agent = new ServiceAgent(client, Mock.ServerUrls);

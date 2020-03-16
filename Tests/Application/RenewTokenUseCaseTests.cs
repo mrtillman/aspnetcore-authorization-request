@@ -23,7 +23,7 @@ namespace Tests.Application
     }
 
     [TestMethod]
-    public async Task Should_Fail_If_RefreshToken_Is_Null(){
+    public async Task Should_Fail_WhenRefreshTokenIsNull(){
       
       var useCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       useCase.RefreshToken = null;
@@ -34,7 +34,7 @@ namespace Tests.Application
     }
 
     [TestMethod]
-    public async Task Should_Get_AuthResponse(){
+    public async Task Should_RenewToken(){
       var mockRefreshToken = Guid.NewGuid().ToString();
       var mockResult = Result<AuthorizationResponse>.Ok(new AuthorizationResponse());
       cacheServiceMock.Setup(cache => cache.SetValue(KEYS.REFRESH_TOKEN, It.IsAny<string>()))
