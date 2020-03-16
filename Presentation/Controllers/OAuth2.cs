@@ -5,77 +5,80 @@ using Services;
 using Common;
 using Domain;
 
-public class OAuth2Controller : Controller
-{
+namespace Presentation {
 
-  public OAuth2Controller(
-    GetTokenUseCase GetTokenUseCase, 
-    GetCountersUseCase GetCountersUseCase,
-    RenewTokenUseCase RenewTokenUseCase,
-    ICacheService CacheService)
-  {
-    getTokenUseCase = GetTokenUseCase;
-    getCountersUseCase = GetCountersUseCase;
-    renewTokenUseCase = RenewTokenUseCase;
-    cache = CacheService;
-  }
-  private GetTokenUseCase getTokenUseCase { get; set; }
-  private GetCountersUseCase getCountersUseCase { get; set; }
-  private RenewTokenUseCase renewTokenUseCase { get; set; }
-
-  private ICacheService cache { get; set; }
-
-  // 2. Authorization Grant (inbound)
-  public async Task<ActionResult> Callback(string code, string state)
+  public class OAuth2Controller : Controller
   {
 
-    var authResponse = cache.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN);
-
-    if(authResponse == null){
-
-      // 3. Authorization Grant (outbound)
-      getTokenUseCase.Code = code;
-      getTokenUseCase.State = state;
-
-      var tokenResult = await getTokenUseCase.Execute();
-      
-      if (tokenResult.DidFail)
-      {
-        return Unauthorized(tokenResult.ErrorMessage);
-      }
-      
-      authResponse = tokenResult.Value;
-
-      cache.SetValue(KEYS.ACCESS_TOKEN, authResponse);
-
-      renewTokenUseCase.RefreshToken = authResponse.refresh_token;
-    }    
-
-    // 4. Access Token (inbound)
-    getCountersUseCase.Token = authResponse.access_token;
-
-    // 5. Access Token (outbound)
-    var countersResult = await getCountersUseCase.Execute();
-
-    if (countersResult.DidFail)
+    public OAuth2Controller(
+      GetTokenUseCase GetTokenUseCase, 
+      GetCountersUseCase GetCountersUseCase,
+      RenewTokenUseCase RenewTokenUseCase,
+      ICacheService CacheService)
     {
-      return BadRequest(countersResult.ErrorMessage);
+      getTokenUseCase = GetTokenUseCase;
+      getCountersUseCase = GetCountersUseCase;
+      renewTokenUseCase = RenewTokenUseCase;
+      cache = CacheService;
+    }
+    private GetTokenUseCase getTokenUseCase { get; set; }
+    private GetCountersUseCase getCountersUseCase { get; set; }
+    private RenewTokenUseCase renewTokenUseCase { get; set; }
+
+    private ICacheService cache { get; set; }
+
+    // 2. Authorization Grant (inbound)
+    public async Task<ActionResult> Callback(string code, string state)
+    {
+
+      var authResponse = cache.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN);
+
+      if(authResponse == null){
+
+        // 3. Authorization Grant (outbound)
+        getTokenUseCase.Code = code;
+        getTokenUseCase.State = state;
+
+        var tokenResult = await getTokenUseCase.Execute();
+        
+        if (tokenResult.DidFail)
+        {
+          return Unauthorized(tokenResult.ErrorMessage);
+        }
+        
+        authResponse = tokenResult.Value;
+
+        cache.SetValue(KEYS.ACCESS_TOKEN, authResponse);
+
+        renewTokenUseCase.RefreshToken = authResponse.refresh_token;
+      }    
+
+      // 4. Access Token (inbound)
+      getCountersUseCase.Token = authResponse.access_token;
+
+      // 5. Access Token (outbound)
+      var countersResult = await getCountersUseCase.Execute();
+
+      if (countersResult.DidFail)
+      {
+        return BadRequest(countersResult.ErrorMessage);
+      }
+
+      // 6. Protected Resource
+      return Ok(countersResult.Value);
+
     }
 
-    // 6. Protected Resource
-    return Ok(countersResult.Value);
+    [Route("/renewtoken")]
+    public async Task<ActionResult> RenewToken()
+    {
+      var result = await renewTokenUseCase.Execute();
+      
+      if(result.DidFail){
+        return Redirect("/");
+      }
 
-  }
-
-  [Route("/renewtoken")]
-  public async Task<ActionResult> RenewToken()
-  {
-    var result = await renewTokenUseCase.Execute();
-    
-    if(result.DidFail){
-      return Redirect("/");
+      return Ok(result.Value);
     }
-
-    return Ok(result.Value);
   }
 }
