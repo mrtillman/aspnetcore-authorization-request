@@ -8,10 +8,10 @@ using Infrastructure;
 
 namespace Services
 {
-  public class CountersService : BaseService, ICountersService
+  public class CounterService : BaseService, ICounterService
   {
 
-    public CountersService(
+    public CounterService(
       IConfiguration Configuration, IServiceAgent ServiceAgent)
       : base(Configuration, ServiceAgent) { }
 

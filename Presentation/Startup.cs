@@ -21,7 +21,7 @@ namespace AuthDemo
       services.AddScoped<IServiceAgent, ServiceAgent>();
       services.AddScoped<ICacheService, CacheService>();
       services.AddScoped<ISecureService, SecureService>();
-      services.AddScoped<ICountersService, CountersService>();
+      services.AddScoped<ICounterService, CounterService>();
       services.AddScoped<GetTokenUseCase>();
       services.AddScoped<GetCountersUseCase>();
       services.AddScoped<RenewTokenUseCase>();

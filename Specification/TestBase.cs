@@ -14,9 +14,9 @@ namespace Specification {
       
       public static readonly string _token = "TokenValue";
 
-      public static ICountersService MockCountersService() {
+      public static ICounterService MockCountersService() {
           var countersResult = Result<List<Counter>>.Ok(new List<Counter>());
-          var mockCountersService = Mock.Of<ICountersService>();
+          var mockCountersService = Mock.Of<ICounterService>();
             Mock.Get(mockCountersService).SetupSet(service => service.Token = _token).Verifiable();
             Mock.Get(mockCountersService).SetupGet(service => service.Token).Returns(_token);
             Mock.Get(mockCountersService)

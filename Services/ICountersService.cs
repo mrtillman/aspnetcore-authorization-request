@@ -4,7 +4,7 @@ using Common;
 using Domain;
 
 namespace Services {
-  public interface ICountersService
+  public interface ICounterService
   {
     string Token { get; set; }
     Task<Result<List<Counter>>> GetCounters();
