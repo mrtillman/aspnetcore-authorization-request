@@ -11,7 +11,7 @@ namespace Tests.Services
   [TestClass]
   public class CountersServiceTests
   {
-    private CountersService service { get; set; }
+    private CounterService service { get; set; }
 
     [TestMethod]
     public async Task Should_GetCounters()
@@ -29,7 +29,7 @@ namespace Tests.Services
          .Setup(agent => agent.FetchCounters())
          .Returns(Task.FromResult(mockResponse));
       
-      service = new CountersService(Mock.Configuration, mockServiceAgent);
+      service = new CounterService(Mock.Configuration, mockServiceAgent);
 
       var result = await service.GetCounters();
 

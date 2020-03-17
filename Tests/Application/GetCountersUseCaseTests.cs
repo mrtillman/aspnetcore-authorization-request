@@ -17,7 +17,7 @@ namespace Tests.Application
     [TestMethod]
     public async Task Should_GetCounters() {
       var token = "TokenValue";
-      var mockCountersService = Mock.Of<ICountersService>(Moq.MockBehavior.Strict);
+      var mockCountersService = Mock.Of<ICounterService>(Moq.MockBehavior.Strict);
       Result<List<Counter>> mockResult = Result<List<Counter>>.Ok(new List<Counter>());
       Mock.Get(mockCountersService).SetupSet(service => service.Token = token).Verifiable();
       Mock.Get(mockCountersService).SetupGet(service => service.Token).Returns(token);
