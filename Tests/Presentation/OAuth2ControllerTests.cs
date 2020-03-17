@@ -17,6 +17,7 @@ namespace Tests.Presentation {
     public OAuth2Controller controller { get; set; }
     public RenewTokenUseCase renewTokenUseCase { get; set; }
     private Mock<ICacheService> cacheServiceMock { get; set; }
+    private Mock<ISecureService> secureServiceMock { get; set; }
 
     [TestMethod]
     public async Task RenewTokenShould_RedirectHome_WhenRefreshTokenIsNull(){
@@ -31,7 +32,27 @@ namespace Tests.Presentation {
       
       var result = await controller.RenewToken() as RedirectResult;
       
-      Assert.IsNotNull("/", result.Url);
+      Assert.AreEqual("/", result.Url);
+    }
+
+    [TestMethod]
+    public async Task RenewTokenShould_GetAuthResponse(){
+      var refreshToken = "refresh_token";
+      cacheServiceMock = new Mock<ICacheService>();
+      cacheServiceMock.Setup(cache => cache.GetValue<string>(KEYS.REFRESH_TOKEN))
+                      .Returns(() => refreshToken);
+      secureServiceMock = new Mock<ISecureService>();
+      secureServiceMock.Setup(service => service.RenewToken(refreshToken))
+                       .Returns(Task.FromResult(Result<AuthorizationResponse>.Ok(new AuthorizationResponse())));
+      renewTokenUseCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
+      renewTokenUseCase.RefreshToken = refreshToken;
+      controller = new OAuth2Controller(
+        null, null, renewTokenUseCase, null
+      );
+      
+      var result = await controller.RenewToken() as OkObjectResult;
+      
+      Assert.IsInstanceOfType(result.Value, typeof(AuthorizationResponse));
     }
   }
 }
