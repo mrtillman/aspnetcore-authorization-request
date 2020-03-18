@@ -20,10 +20,8 @@
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="**\*.feature">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+  <Target Name="CopySpecs" AfterTargets="AfterBuild">
+    <Copy SourceFiles="GetCountersFeature\GetCounters.feature" DestinationFolder="$(OutDir)" />
+  </Target>
 
 </Project>
