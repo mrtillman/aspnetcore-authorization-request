@@ -10,9 +10,9 @@ namespace Specification
 {
     
     [FeatureFile("./GetCounters.feature")]
-    public sealed class GetCounters : TestBase
+    public sealed class GetCounters : World
     {
-        private readonly GetCountersUseCase usecase = new GetCountersUseCase(TestBase.MockCountersService());
+        private readonly GetCountersUseCase usecase = new GetCountersUseCase(World.MockCountersService());
         
         private Result<List<Counter>> result { get; set; }
 

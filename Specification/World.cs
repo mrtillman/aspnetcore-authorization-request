@@ -9,7 +9,7 @@ using Services;
 
 namespace Specification {
 
-  public abstract class TestBase : Feature, IDisposable
+  public abstract class World : Feature, IDisposable
   {
       
       public static readonly string _token = "TokenValue";
