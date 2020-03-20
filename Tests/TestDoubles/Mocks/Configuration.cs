@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace Tests.TestDoubles
+namespace Tests
 {
   static partial class Mock
   {

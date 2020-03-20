@@ -1,4 +1,4 @@
-namespace Tests.TestDoubles
+namespace Tests
 {
   static partial class Stub
   {

@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 
-namespace Tests.TestDoubles
+namespace Tests
 {
   static partial class Mock
   {
