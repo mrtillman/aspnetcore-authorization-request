@@ -48,16 +48,16 @@ namespace Tests.Infrastructure {
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 
-    private Mock<HttpMessageHandler> mockHttpMessageHandler(HttpResponseMessage mockResponse)
-      => Tests.Mock.SetUp(handler => {
-          handler.Protected()
-                 .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>()
-                  )
-                  .ReturnsAsync(mockResponse);
-          return handler;
-        });
+    private Mock<HttpMessageHandler> mockHttpMessageHandler(HttpResponseMessage mockResponse){
+      var handler = new Moq.Mock<HttpMessageHandler>();
+      handler.Protected()
+             .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>()
+              )
+             .ReturnsAsync(mockResponse);
+      return handler;
+    }
   }
 }
