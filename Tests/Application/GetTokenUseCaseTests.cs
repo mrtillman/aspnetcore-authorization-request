@@ -15,9 +15,9 @@ namespace Tests.Application
 
     [TestMethod]
     public async Task Should_GetToken() {
-      var mockSecureService = Mock.Of<ISecureService>(Moq.MockBehavior.Strict);
+      var mockSecureService = Moq.Mock.Of<ISecureService>(Moq.MockBehavior.Strict);
       Result<AuthorizationResponse> mockResult = Result<AuthorizationResponse>.Ok(new AuthorizationResponse());
-      Mock.Get(mockSecureService)
+      Moq.Mock.Get(mockSecureService)
           .Setup(service => service.GetToken(It.IsAny<string>(),It.IsAny<string>()))
           .Returns(Task.FromResult(mockResult));
       getTokenUseCase = new GetTokenUseCase(mockSecureService);

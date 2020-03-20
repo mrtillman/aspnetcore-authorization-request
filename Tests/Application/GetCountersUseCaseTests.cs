@@ -17,11 +17,11 @@ namespace Tests.Application
     [TestMethod]
     public async Task Should_GetCounters() {
       var token = "TokenValue";
-      var mockCountersService = Mock.Of<ICounterService>(Moq.MockBehavior.Strict);
+      var mockCountersService = Moq.Mock.Of<ICounterService>(Moq.MockBehavior.Strict);
       Result<List<Counter>> mockResult = Result<List<Counter>>.Ok(new List<Counter>());
-      Mock.Get(mockCountersService).SetupSet(service => service.Token = token).Verifiable();
-      Mock.Get(mockCountersService).SetupGet(service => service.Token).Returns(token);
-      Mock.Get(mockCountersService)
+      Moq.Mock.Get(mockCountersService).SetupSet(service => service.Token = token).Verifiable();
+      Moq.Mock.Get(mockCountersService).SetupGet(service => service.Token).Returns(token);
+      Moq.Mock.Get(mockCountersService)
           .Setup(service => service.GetCounters())
           .Returns(Task.FromResult(mockResult));
       getCountersUseCase = new GetCountersUseCase(mockCountersService);
