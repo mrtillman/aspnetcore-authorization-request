@@ -15,7 +15,7 @@ namespace Tests.Infrastructure {
   {
     public ServiceAgentTests()
     {
-        mockResponse = Moq.Mock.Of<HttpResponseMessage>();
+        mockResponse = Mock.Of<HttpResponseMessage>();
         mockResponse.StatusCode = HttpStatusCode.OK;
     }
     private ServiceAgent agent { get; set; }
@@ -49,7 +49,7 @@ namespace Tests.Infrastructure {
     }
 
     private Mock<HttpMessageHandler> mockHttpMessageHandler(HttpResponseMessage mockResponse){
-      var handler = new Moq.Mock<HttpMessageHandler>();
+      var handler = new Mock<HttpMessageHandler>();
       handler.Protected()
              .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",

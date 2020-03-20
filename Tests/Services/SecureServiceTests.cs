@@ -5,7 +5,7 @@ using System.Web;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Services;
-using Tests;
+using Moq;
 using Infrastructure;
 using Domain;
 using Common;
@@ -20,13 +20,13 @@ namespace Tests.Services
     {
       var mockResponse = mockAuthorizationResponse();
 
-      var mockServiceAgent = Moq.Mock.Of<IServiceAgent>(Moq.MockBehavior.Strict);
+      var mockServiceAgent = Mock.Of<IServiceAgent>(MockBehavior.Strict);
       
-      Moq.Mock.Get(mockServiceAgent)
+      Mock.Get(mockServiceAgent)
          .Setup(agent => agent.FetchToken(Moq.It.IsAny<AuthorizationRequest>()))
          .Returns(Task.FromResult(mockResponse));
 
-      Moq.Mock.Get(mockServiceAgent)
+      Mock.Get(mockServiceAgent)
          .Setup(agent => agent.RenewToken(Moq.It.IsAny<AuthorizationRequest>()))
          .Returns(Task.FromResult(mockResponse));
       
@@ -58,7 +58,7 @@ namespace Tests.Services
 
     private HttpResponseMessage mockAuthorizationResponse(){
       var authorizationResponse = "{\"id_token\":\"id_token\", \"access_token\":\"access_token\", \"expires_in\":86400, \"token_type\":\"Bearer\",  \"scope\":\"openid\"}";
-      var response = Moq.Mock.Of<HttpResponseMessage>(Moq.MockBehavior.Strict);
+      var response = Mock.Of<HttpResponseMessage>(MockBehavior.Strict);
       response.StatusCode = HttpStatusCode.OK;
       response.Content = new StringContent(authorizationResponse);
       return response;
