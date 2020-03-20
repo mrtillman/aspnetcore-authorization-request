@@ -3,46 +3,61 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Infrastructure;
-using Tests.TestDoubles;
 using Domain;
+using Moq;
+using Moq.Protected;
+using System.Threading;
 
 namespace Tests.Infrastructure {
   
   [TestClass]
   public class ServiceAgentTests
   {
-    public ServiceAgent agent { get; set; }
-
-    private readonly HttpResponseMessage mockResponse = Mock.SetUp(res => {
-      res.StatusCode = HttpStatusCode.OK;
-      return res;
-    });
+    public ServiceAgentTests()
+    {
+        mockResponse = Moq.Mock.Of<HttpResponseMessage>();
+        mockResponse.StatusCode = HttpStatusCode.OK;
+    }
+    private ServiceAgent agent { get; set; }
+    private HttpResponseMessage mockResponse { get; set; }
 
     [TestMethod]
     public async Task Should_FetchCounters(){
-      var mockHandler = Mock.HttpMessageHandler(mockResponse);
+      var mockHandler = mockHttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      agent = new ServiceAgent(client, Mock.ServerUrls);
+      agent = new ServiceAgent(client, TestDoubles.ServerUrls);
       var response = await agent.FetchCounters();
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 
     [TestMethod]
     public async Task Should_FetchToken(){
-      var mockHandler = Mock.HttpMessageHandler(mockResponse);
+      var mockHandler = mockHttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      agent = new ServiceAgent(client, Mock.ServerUrls);
+      agent = new ServiceAgent(client, TestDoubles.ServerUrls);
       var response = await agent.FetchToken(new AuthorizationRequest());
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 
     [TestMethod]
     public async Task Should_RenewToken(){
-      var mockHandler = Mock.HttpMessageHandler(mockResponse);
+      var mockHandler = mockHttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
-      agent = new ServiceAgent(client, Mock.ServerUrls);
+      agent = new ServiceAgent(client, TestDoubles.ServerUrls);
       var response = await agent.RenewToken(new AuthorizationRequest());
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
+
+    private Mock<HttpMessageHandler> mockHttpMessageHandler(HttpResponseMessage mockResponse)
+      => Tests.Mock.SetUp(handler => {
+          handler.Protected()
+                 .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>()
+                  )
+                  .ReturnsAsync(mockResponse);
+          return handler;
+        });
   }
 }
