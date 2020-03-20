@@ -18,12 +18,7 @@ namespace Tests.Services
     [TestInitialize]
     public void TestStartup()
     {
-      var mockResponse = Mock.SetUp(response =>
-      {
-        response.StatusCode = HttpStatusCode.OK;
-        response.Content = new StringContent(TestDoubles.AuthorizationResponse);
-        return response;
-      });
+      var mockResponse = mockAuthorizationResponse();
 
       var mockServiceAgent = Moq.Mock.Of<IServiceAgent>(Moq.MockBehavior.Strict);
       
@@ -59,6 +54,14 @@ namespace Tests.Services
     public async Task Should_RenewToken(){
       var AuthorizationResponse = await secureService.RenewToken("refr3sh-tok3n");
       Assert.IsNotNull(AuthorizationResponse.Value);
+    }
+
+    private HttpResponseMessage mockAuthorizationResponse(){
+      var authorizationResponse = "{\"id_token\":\"id_token\", \"access_token\":\"access_token\", \"expires_in\":86400, \"token_type\":\"Bearer\",  \"scope\":\"openid\"}";
+      var response = Moq.Mock.Of<HttpResponseMessage>(Moq.MockBehavior.Strict);
+      response.StatusCode = HttpStatusCode.OK;
+      response.Content = new StringContent(authorizationResponse);
+      return response;
     }
   }
 }
