@@ -5,7 +5,7 @@ using System.Web;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Services;
-using Tests.TestDoubles;
+using Tests;
 using Infrastructure;
 using Domain;
 using Common;
@@ -35,7 +35,7 @@ namespace Tests.Services
          .Setup(agent => agent.RenewToken(Moq.It.IsAny<AuthorizationRequest>()))
          .Returns(Task.FromResult(mockResponse));
       
-      secureService = new SecureService(Mock.Configuration, Mock.ServerUrls, mockServiceAgent);
+      secureService = new SecureService(Mock.Configuration, TestDoubles.ServerUrls, mockServiceAgent);
     }
     private SecureService secureService { get; set; }
 
