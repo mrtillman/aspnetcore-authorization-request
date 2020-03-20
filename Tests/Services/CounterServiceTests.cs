@@ -19,7 +19,7 @@ namespace Tests.Services
       var mockResponse = Mock.SetUp(response =>
       {
         response.StatusCode = HttpStatusCode.OK;
-        response.Content = new StringContent(Stub.JSON.Counters);
+        response.Content = new StringContent(TestDoubles.Counters);
         return response;
       });
       
@@ -29,7 +29,7 @@ namespace Tests.Services
          .Setup(agent => agent.FetchCounters())
          .Returns(Task.FromResult(mockResponse));
       
-      service = new CounterService(Mock.Configuration, mockServiceAgent);
+      service = new CounterService(TestDoubles.Configuration, mockServiceAgent);
 
       var result = await service.GetCounters();
 

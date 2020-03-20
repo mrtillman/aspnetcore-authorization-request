@@ -21,7 +21,7 @@ namespace Tests.Services
       var mockResponse = Mock.SetUp(response =>
       {
         response.StatusCode = HttpStatusCode.OK;
-        response.Content = new StringContent(Stub.JSON.AuthorizationResponse);
+        response.Content = new StringContent(TestDoubles.AuthorizationResponse);
         return response;
       });
 
@@ -35,7 +35,7 @@ namespace Tests.Services
          .Setup(agent => agent.RenewToken(Moq.It.IsAny<AuthorizationRequest>()))
          .Returns(Task.FromResult(mockResponse));
       
-      secureService = new SecureService(Mock.Configuration, TestDoubles.ServerUrls, mockServiceAgent);
+      secureService = new SecureService(TestDoubles.Configuration, TestDoubles.ServerUrls, mockServiceAgent);
     }
     private SecureService secureService { get; set; }
 
