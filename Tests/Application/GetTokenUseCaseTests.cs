@@ -17,8 +17,8 @@ namespace Tests.Application
     
     [TestInitialize]
     public void Initialize(){
-      mockSecureService = new Mock<ISecureService>(MockBehavior.Strict);
-      mockCacheService = new Mock<ICacheService>(MockBehavior.Strict);
+      mockSecureService = new Mock<ISecureService>();
+      mockCacheService = new Mock<ICacheService>();
     }
 
     [TestMethod]

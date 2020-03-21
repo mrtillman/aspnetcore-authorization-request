@@ -14,7 +14,7 @@ namespace Tests.Application
   {
     public GetCountersUseCaseTests()
     {
-        mockCounterService = new Mock<ICounterService>(MockBehavior.Strict);
+        mockCounterService = new Mock<ICounterService>();
         Result<List<Counter>> mockResult = Result<List<Counter>>.Ok(new List<Counter>());
         mockCounterService.SetupSet(service => service.Token = TestDoubles.Token).Verifiable();
         mockCounterService.SetupGet(service => service.Token)

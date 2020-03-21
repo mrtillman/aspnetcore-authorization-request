@@ -20,7 +20,7 @@ namespace Tests.Services
     {
       var mockResponse = mockAuthorizationResponse();
 
-      var mockServiceAgent = Mock.Of<IServiceAgent>(MockBehavior.Strict);
+      var mockServiceAgent = Mock.Of<IServiceAgent>();
       
       Mock.Get(mockServiceAgent)
          .Setup(agent => agent.FetchToken(Moq.It.IsAny<AuthorizationRequest>()))
@@ -58,7 +58,7 @@ namespace Tests.Services
 
     private HttpResponseMessage mockAuthorizationResponse(){
       var authorizationResponse = "{\"id_token\":\"id_token\", \"access_token\":\"access_token\", \"expires_in\":86400, \"token_type\":\"Bearer\",  \"scope\":\"openid\"}";
-      var response = Mock.Of<HttpResponseMessage>(MockBehavior.Strict);
+      var response = Mock.Of<HttpResponseMessage>();
       response.StatusCode = HttpStatusCode.OK;
       response.Content = new StringContent(authorizationResponse);
       return response;

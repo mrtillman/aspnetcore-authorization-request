@@ -20,7 +20,7 @@ namespace Tests {
     public static IServerUrls ServerUrls { 
       get {
         if(_serverUrls == null){
-          _serverUrls = Mock.Of<IServerUrls>(MockBehavior.Strict);
+          _serverUrls = Mock.Of<IServerUrls>();
           Mock.Get(_serverUrls)
               .Setup(urls => urls.API)
               .Returns("https://api.counter-culture.io");
@@ -38,7 +38,7 @@ namespace Tests {
     {
       get {
         if(_configuration == null){
-          _configuration = Mock.Of<IConfiguration>(MockBehavior.Strict);
+          _configuration = Mock.Of<IConfiguration>();
           Mock.Get(_configuration)
                   .Setup(config => config["CLIENT_ID"])
                   .Returns("CLIENT_ID");
