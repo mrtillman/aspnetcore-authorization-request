@@ -29,12 +29,12 @@ namespace Tests.Presentation {
       cacheServiceMock.Setup(cache => cache.Clear()).Verifiable();
       secureServiceMock = new Mock<ISecureService>();
       secureServiceMock.SetupGet(service => service.AuthorizationUrl)
-                       .Returns("AuthUrl").Verifiable();
+                       .Returns(TestDoubles.AuthorizationUrl).Verifiable();
     }
 
     [TestMethod]
-    public void IndexShould_Load(){
-      controller = new AppController(null, null, null, null, cacheServiceMock.Object);
+    public void Index_Should_Load(){
+      controller = new AppController(null, null, null, cacheServiceMock.Object);
 
       var result = controller.Index();
 
@@ -42,26 +42,33 @@ namespace Tests.Presentation {
     }
 
     [TestMethod]
-    public void IndexShould_ClearCache(){
-      controller = new AppController(null, null, null, null, cacheServiceMock.Object);
-
-      var result = controller.Index();
+    public void SignIn_Should_ClearCache(){
+      getTokenUseCase = new GetTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
+      controller = new AppController(getTokenUseCase, null, null, null);
+      var ctrlContext = new ControllerContext();
+      var httpContext = new Mock<HttpContext>();
+      httpContext.Setup(ctx => ctx.Response.Redirect(TestDoubles.AuthorizationUrl)).Verifiable();
+      ctrlContext.HttpContext = httpContext.Object;
+      controller.ControllerContext = ctrlContext;
+      
+      controller.SignIn();
 
       cacheServiceMock.Verify(cache => cache.Clear(), Times.Once);
     }
 
     [TestMethod]
     public void SignInShould_RedirectToAuthUrl(){
-      var authUrl = secureServiceMock.Object.AuthorizationUrl;
-      controller = new AppController(null, null, null, secureServiceMock.Object, cacheServiceMock.Object);
-      controller.ControllerContext = new ControllerContext();
+    getTokenUseCase = new GetTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
+      controller = new AppController(getTokenUseCase, null, null, null);
+      var ctrlContext = new ControllerContext();
       var httpContext = new Mock<HttpContext>();
-      httpContext.Setup(ctx => ctx.Response.Redirect(authUrl)).Verifiable();
-      controller.ControllerContext.HttpContext = httpContext.Object;
-
+      httpContext.Setup(ctx => ctx.Response.Redirect(TestDoubles.AuthorizationUrl)).Verifiable();
+      ctrlContext.HttpContext = httpContext.Object;
+      controller.ControllerContext = ctrlContext;
+      
       controller.SignIn();
 
-      httpContext.Verify(ctx => ctx.Response.Redirect(authUrl), Times.Once);
+      httpContext.Verify(ctx => ctx.Response.Redirect(TestDoubles.AuthorizationUrl), Times.Once);
     }
 
     [TestMethod]
@@ -86,7 +93,7 @@ namespace Tests.Presentation {
       renewTokenUseCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       
       controller = new AppController(
-        getTokenUseCase, getCountersUseCase, renewTokenUseCase, null, cacheServiceMock.Object
+        getTokenUseCase, getCountersUseCase, renewTokenUseCase, cacheServiceMock.Object
       );
       
       var result = await controller.Callback("code", "state");
@@ -102,7 +109,7 @@ namespace Tests.Presentation {
       renewTokenUseCase = new RenewTokenUseCase(null, cacheServiceMock.Object);
       renewTokenUseCase.RefreshToken = null;
       controller = new AppController(
-        null, null, renewTokenUseCase, null, null
+        null, null, renewTokenUseCase, null
       );
       
       var result = await controller.RenewToken() as RedirectResult;
@@ -122,7 +129,7 @@ namespace Tests.Presentation {
       renewTokenUseCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       renewTokenUseCase.RefreshToken = refreshToken;
       controller = new AppController(
-        null, null, renewTokenUseCase, null, null
+        null, null, renewTokenUseCase, null
       );
       
       var result = await controller.RenewToken() as OkObjectResult;

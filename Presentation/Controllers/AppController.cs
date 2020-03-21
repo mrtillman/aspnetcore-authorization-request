@@ -14,33 +14,30 @@ namespace Presentation {
       GetTokenUseCase GetTokenUseCase, 
       GetCountersUseCase GetCountersUseCase,
       RenewTokenUseCase RenewTokenUseCase,
-      ISecureService SecureService,
       ICacheService CacheService)
     {
       getTokenUseCase = GetTokenUseCase;
       getCountersUseCase = GetCountersUseCase;
       renewTokenUseCase = RenewTokenUseCase;
-      secureService = SecureService;
       cacheService = CacheService;
     }
 
-    private ISecureService secureService { get; set; }
-    private ICacheService cacheService { get; set; }
     private GetTokenUseCase getTokenUseCase { get; set; }
     private GetCountersUseCase getCountersUseCase { get; set; }
     private RenewTokenUseCase renewTokenUseCase { get; set; }
+    private ICacheService cacheService { get; set; }
 
     [Route("/")]
     public ViewResult Index()
     {
-      cacheService.Clear();
       return View("../Index");
     }
+
     [Route("/home/signin")]
     public void SignIn()
     {
       // 1. Begin Authorization Request
-      Response.Redirect(secureService.AuthorizationUrl);
+      Response.Redirect(getTokenUseCase.AuthorizationUrl);
     }
 
     // 2. Authorization Grant (inbound)
