@@ -9,7 +9,7 @@ using Infrastructure;
 namespace Tests.Services
 {
   [TestClass]
-  public class CountersServiceTests
+  public class CounterServiceTests
   {
     private CounterService service { get; set; }
 

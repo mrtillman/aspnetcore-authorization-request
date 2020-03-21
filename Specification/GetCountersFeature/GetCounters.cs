@@ -12,7 +12,7 @@ namespace Specification
     [FeatureFile("./GetCounters.feature")]
     public sealed class GetCounters : World
     {
-        private readonly GetCountersUseCase usecase = new GetCountersUseCase(World.MockCountersService());
+        private readonly GetCountersUseCase usecase = new GetCountersUseCase(World.MockCounterService());
         
         private Result<List<Counter>> result { get; set; }
 

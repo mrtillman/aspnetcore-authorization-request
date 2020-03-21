@@ -8,18 +8,18 @@ namespace Application
 {
   public class GetCountersUseCase : IUseCase<Task<Result<List<Counter>>>>
   {
-    private ICounterService countersService { get; set; }
+    private ICounterService counterService { get; set; }
     public string Token { 
-      get { return countersService.Token; }
-      set { countersService.Token = value; } 
+      get { return counterService.Token; }
+      set { counterService.Token = value; } 
     }
-    public GetCountersUseCase(ICounterService CountersService)
+    public GetCountersUseCase(ICounterService CounterService)
     {
-        countersService = CountersService;
+        counterService = CounterService;
     }
     public async Task<Result<List<Counter>>> Execute()
     {
-      return await countersService.GetCounters();
+      return await counterService.GetCounters();
     }
   }
 }

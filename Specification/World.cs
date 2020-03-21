@@ -14,15 +14,15 @@ namespace Specification {
       
       public static readonly string _token = "TokenValue";
 
-      public static ICounterService MockCountersService() {
+      public static ICounterService MockCounterService() {
           var countersResult = Result<List<Counter>>.Ok(new List<Counter>());
-          var mockCountersService = Mock.Of<ICounterService>();
-            Mock.Get(mockCountersService).SetupSet(service => service.Token = _token).Verifiable();
-            Mock.Get(mockCountersService).SetupGet(service => service.Token).Returns(_token);
-            Mock.Get(mockCountersService)
+          var mockCounterService = Mock.Of<ICounterService>();
+            Mock.Get(mockCounterService).SetupSet(service => service.Token = _token).Verifiable();
+            Mock.Get(mockCounterService).SetupGet(service => service.Token).Returns(_token);
+            Mock.Get(mockCounterService)
                 .Setup(service => service.GetCounters())
                 .Returns(Task.FromResult(countersResult));
-            return mockCountersService;
+            return mockCounterService;
       }
       public void Dispose()
       {
