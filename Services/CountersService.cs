@@ -26,12 +26,12 @@ namespace Services
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
-        return Result<List<Counter>>.Fail(response.ReasonPhrase);
+        return Result.Fail<List<Counter>>(response.ReasonPhrase);
       }
 
       var countersResponse = await DeserializeResponseStringAs<List<Counter>>(response);
 
-      return Result<List<Counter>>.Ok(countersResponse);
+      return Result.Ok(countersResponse);
     }
 
   }

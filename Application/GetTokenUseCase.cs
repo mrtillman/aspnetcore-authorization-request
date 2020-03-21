@@ -19,7 +19,7 @@ namespace Application
     public async Task<Result<AuthorizationResponse>> Execute()
     {
       var authResponse = cacheService.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN);
-      if(authResponse != null) return Result<AuthorizationResponse>.Ok(authResponse);
+      if(authResponse != null) return Result.Ok(authResponse);
       var result = await secureService.GetToken(Code, State);
       if(result.DidSucceed){
         cacheService.SetValue(KEYS.ACCESS_TOKEN, result.Value);

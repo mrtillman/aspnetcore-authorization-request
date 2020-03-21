@@ -14,7 +14,7 @@ namespace Tests {
     public static readonly string Code = "3bd5b7a0-876b-4a06-9aa8-903fe4d7e8e6";
     public static readonly string State = "54719797-8ee7-488c-824a-f40fd9fab348";
     
-    public static readonly Result<AuthorizationResponse> authResult = Result<AuthorizationResponse>.Ok(new AuthorizationResponse());
+    public static readonly Result<AuthorizationResponse> authResult = Result.Ok(new AuthorizationResponse());
 
     private static IServerUrls _serverUrls = null;
     public static IServerUrls ServerUrls { 

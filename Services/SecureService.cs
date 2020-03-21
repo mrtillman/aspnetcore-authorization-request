@@ -47,7 +47,7 @@ namespace Services
     {
       if (state != _state)
       {
-        return Result<AuthorizationResponse>.Fail("Forged Authorization Request");
+        return Result.Fail<AuthorizationResponse>("Forged Authorization Request");
       }
 
       var authRequest = new AuthorizationRequest(){
@@ -63,12 +63,12 @@ namespace Services
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
-        return Result<AuthorizationResponse>.Fail(response.ReasonPhrase);
+        return Result.Fail<AuthorizationResponse>(response.ReasonPhrase);
       }
 
       var AuthorizationResponse = await DeserializeResponseStringAs<AuthorizationResponse>(response);
 
-      return Result<AuthorizationResponse>.Ok(AuthorizationResponse);
+      return Result.Ok(AuthorizationResponse);
     }
 
     public async Task<Result<AuthorizationResponse>> RenewToken(string refreshToken)
@@ -84,12 +84,12 @@ namespace Services
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
-        return Result<AuthorizationResponse>.Fail(response.ReasonPhrase);
+        return Result.Fail<AuthorizationResponse>(response.ReasonPhrase);
       }
 
       var AuthorizationResponse = await DeserializeResponseStringAs<AuthorizationResponse>(response);
 
-      return Result<AuthorizationResponse>.Ok(AuthorizationResponse);
+      return Result.Ok(AuthorizationResponse);
     }
   }
 }

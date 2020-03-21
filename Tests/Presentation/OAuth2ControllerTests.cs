@@ -39,10 +39,10 @@ namespace Tests.Presentation {
       cacheServiceMock.Setup(cache => cache.SetValue(KEYS.ACCESS_TOKEN, It.IsAny<AuthorizationResponse>()))
                       .Verifiable();
       secureServiceMock.Setup(service => service.GetToken(It.IsAny<string>(), It.IsAny<string>()))
-                       .Returns(Task.FromResult(Result<AuthorizationResponse>.Ok(authResponse)));
+                       .Returns(Task.FromResult(Result.Ok(authResponse)));
       getTokenUseCase = new GetTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       counterServiceMock.Setup(service => service.GetCounters())
-                        .Returns(Task.FromResult(Result<List<Counter>>.Ok(new List<Counter>())));
+                        .Returns(Task.FromResult(Result.Ok(new List<Counter>())));
       getCountersUseCase = new GetCountersUseCase(counterServiceMock.Object);
       renewTokenUseCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       
@@ -79,7 +79,7 @@ namespace Tests.Presentation {
                       .Returns(() => refreshToken);
       secureServiceMock = new Mock<ISecureService>();
       secureServiceMock.Setup(service => service.RenewToken(refreshToken))
-                       .Returns(Task.FromResult(Result<AuthorizationResponse>.Ok(new AuthorizationResponse())));
+                       .Returns(Task.FromResult(Result.Ok(new AuthorizationResponse())));
       renewTokenUseCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       renewTokenUseCase.RefreshToken = refreshToken;
       controller = new OAuth2Controller(
