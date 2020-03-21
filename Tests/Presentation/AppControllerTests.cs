@@ -33,42 +33,23 @@ namespace Tests.Presentation {
     }
 
     [TestMethod]
-    public void Index_Should_Load(){
-      controller = new AppController(null, null, null, cacheServiceMock.Object);
+    public void Index_Should_ReturnAuthorizationUrl(){
+      getTokenUseCase = new GetTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
+      controller = new AppController(getTokenUseCase, null, null, null);
 
       var result = controller.Index();
 
-      Assert.IsNotNull(result);
+      Assert.AreEqual(TestDoubles.AuthorizationUrl, result.Model);
     }
 
     [TestMethod]
-    public void SignIn_Should_ClearCache(){
+    public void Index_Should_ClearCache(){
       getTokenUseCase = new GetTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       controller = new AppController(getTokenUseCase, null, null, null);
-      var ctrlContext = new ControllerContext();
-      var httpContext = new Mock<HttpContext>();
-      httpContext.Setup(ctx => ctx.Response.Redirect(TestDoubles.AuthorizationUrl)).Verifiable();
-      ctrlContext.HttpContext = httpContext.Object;
-      controller.ControllerContext = ctrlContext;
       
-      controller.SignIn();
+      controller.Index();
 
       cacheServiceMock.Verify(cache => cache.Clear(), Times.Once);
-    }
-
-    [TestMethod]
-    public void SignInShould_RedirectToAuthUrl(){
-    getTokenUseCase = new GetTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
-      controller = new AppController(getTokenUseCase, null, null, null);
-      var ctrlContext = new ControllerContext();
-      var httpContext = new Mock<HttpContext>();
-      httpContext.Setup(ctx => ctx.Response.Redirect(TestDoubles.AuthorizationUrl)).Verifiable();
-      ctrlContext.HttpContext = httpContext.Object;
-      controller.ControllerContext = ctrlContext;
-      
-      controller.SignIn();
-
-      httpContext.Verify(ctx => ctx.Response.Redirect(TestDoubles.AuthorizationUrl), Times.Once);
     }
 
     [TestMethod]

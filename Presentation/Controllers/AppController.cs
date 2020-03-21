@@ -30,14 +30,7 @@ namespace Presentation {
     [Route("/")]
     public ViewResult Index()
     {
-      return View("../Index");
-    }
-
-    [Route("/home/signin")]
-    public void SignIn()
-    {
-      // 1. Begin Authorization Request
-      Response.Redirect(getTokenUseCase.AuthorizationUrl);
+      return View("../Index", getTokenUseCase.AuthorizationUrl);
     }
 
     // 2. Authorization Grant (inbound)
