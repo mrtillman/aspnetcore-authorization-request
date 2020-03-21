@@ -30,6 +30,7 @@ namespace Presentation {
     [Route("/")]
     public ViewResult Index()
     {
+      // 1. Begin Authorization Request
       return View("../Index", getTokenUseCase.AuthorizationUrl);
     }
 
