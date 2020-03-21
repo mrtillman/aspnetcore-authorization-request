@@ -14,8 +14,7 @@ namespace Tests.Application
     private GetTokenUseCase getTokenUseCase { get; set; }
     private Mock<ISecureService> mockSecureService { get; set; }
     private Mock<ICacheService> mockCacheService { get; set; }
-    private readonly Result<AuthorizationResponse> authResponseResult = Result<AuthorizationResponse>.Ok(new AuthorizationResponse());
-
+    
     [TestInitialize]
     public void Initialize(){
       mockSecureService = new Mock<ISecureService>(MockBehavior.Strict);
@@ -26,7 +25,7 @@ namespace Tests.Application
     public async Task Execute_Should_GetAuthorizationResponse() {      
       mockSecureService
           .Setup(service => service.GetToken(It.IsAny<string>(),It.IsAny<string>()))
-          .Returns(Task.FromResult(authResponseResult))
+          .Returns(Task.FromResult(TestDoubles.authResult))
           .Verifiable();
       mockCacheService
           .Setup(service => service.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN))
@@ -46,7 +45,7 @@ namespace Tests.Application
           .Verifiable();
       mockCacheService
           .Setup(service => service.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN))
-          .Returns(authResponseResult.Value);
+          .Returns(TestDoubles.authResult.Value);
       getTokenUseCase = new GetTokenUseCase(mockSecureService.Object, mockCacheService.Object);
 
       var result = await getTokenUseCase.Execute();
