@@ -25,7 +25,7 @@ namespace Application
     public async Task<Result<AuthorizationResponse>> Execute()
     {
       if(string.IsNullOrEmpty(RefreshToken)) {
-        return Result.Fail<AuthorizationResponse>("Please Sign In");
+        return Result.Fail<AuthorizationResponse>("Missing refresh token");
       }
       var result = await secureService.RenewToken(RefreshToken);
       if(result.DidSucceed){
