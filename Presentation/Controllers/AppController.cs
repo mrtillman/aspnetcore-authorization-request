@@ -34,7 +34,7 @@ namespace Presentation {
     public ViewResult Index()
     {
       cacheService.Clear();
-      return View();
+      return View("../Index");
     }
     [Route("/home/signin")]
     public void SignIn()
