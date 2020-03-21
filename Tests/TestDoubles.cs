@@ -50,6 +50,5 @@ namespace Tests {
         return _configuration;
       }
     }
-    public static readonly List<Counter> Counters = new List<Counter>();
   }
 }
