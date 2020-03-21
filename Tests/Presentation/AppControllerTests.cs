@@ -1,29 +1,68 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Presentation;
-using Application;
 using Moq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
+using Presentation;
+using Services;
+using Microsoft.AspNetCore.Http;
+using Application;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Domain;
 using Common;
-using System.Threading.Tasks;
-using Services;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Tests.Presentation {
   
   [TestClass]
-  public class OAuth2ControllerTests
+  public class AppControllerTests
   {
-    
-    public OAuth2Controller controller { get; set; }
+    private AppController controller { get; set; }
     public RenewTokenUseCase renewTokenUseCase { get; set; }
     public GetTokenUseCase getTokenUseCase { get; set; }
     public GetCountersUseCase getCountersUseCase { get; set; }
     private Mock<ICacheService> cacheServiceMock { get; set; }
     private Mock<ISecureService> secureServiceMock { get; set; }
     private Mock<ICounterService> counterServiceMock { get; set; }
+
+    [TestInitialize]
+    public void Initialize() {
+      cacheServiceMock = new Mock<ICacheService>();
+      cacheServiceMock.Setup(cache => cache.Clear()).Verifiable();
+      secureServiceMock = new Mock<ISecureService>();
+      secureServiceMock.SetupGet(service => service.AuthorizationUrl)
+                       .Returns("AuthUrl").Verifiable();
+    }
+
+    [TestMethod]
+    public void IndexShould_Load(){
+      controller = new AppController(null, null, null, null, cacheServiceMock.Object);
+
+      var result = controller.Index();
+
+      Assert.IsNotNull(result);
+    }
+
+    [TestMethod]
+    public void IndexShould_ClearCache(){
+      controller = new AppController(null, null, null, null, cacheServiceMock.Object);
+
+      var result = controller.Index();
+
+      cacheServiceMock.Verify(cache => cache.Clear(), Times.Once);
+    }
+
+    [TestMethod]
+    public void SignInShould_RedirectToAuthUrl(){
+      var authUrl = secureServiceMock.Object.AuthorizationUrl;
+      controller = new AppController(null, null, null, secureServiceMock.Object, cacheServiceMock.Object);
+      controller.ControllerContext = new ControllerContext();
+      var httpContext = new Mock<HttpContext>();
+      httpContext.Setup(ctx => ctx.Response.Redirect(authUrl)).Verifiable();
+      controller.ControllerContext.HttpContext = httpContext.Object;
+
+      controller.SignIn();
+
+      httpContext.Verify(ctx => ctx.Response.Redirect(authUrl), Times.Once);
+    }
 
     [TestMethod]
     public async Task CallbackShould_GetCounters(){
@@ -46,8 +85,8 @@ namespace Tests.Presentation {
       getCountersUseCase = new GetCountersUseCase(counterServiceMock.Object);
       renewTokenUseCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       
-      controller = new OAuth2Controller(
-        getTokenUseCase, getCountersUseCase, renewTokenUseCase, cacheServiceMock.Object
+      controller = new AppController(
+        getTokenUseCase, getCountersUseCase, renewTokenUseCase, null, cacheServiceMock.Object
       );
       
       var result = await controller.Callback("code", "state");
@@ -62,8 +101,8 @@ namespace Tests.Presentation {
                       .Returns(() => null);
       renewTokenUseCase = new RenewTokenUseCase(null, cacheServiceMock.Object);
       renewTokenUseCase.RefreshToken = null;
-      controller = new OAuth2Controller(
-        null, null, renewTokenUseCase, null
+      controller = new AppController(
+        null, null, renewTokenUseCase, null, null
       );
       
       var result = await controller.RenewToken() as RedirectResult;
@@ -82,8 +121,8 @@ namespace Tests.Presentation {
                        .Returns(Task.FromResult(Result.Ok(new AuthorizationResponse())));
       renewTokenUseCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       renewTokenUseCase.RefreshToken = refreshToken;
-      controller = new OAuth2Controller(
-        null, null, renewTokenUseCase, null
+      controller = new AppController(
+        null, null, renewTokenUseCase, null, null
       );
       
       var result = await controller.RenewToken() as OkObjectResult;
