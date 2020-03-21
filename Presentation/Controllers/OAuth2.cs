@@ -30,7 +30,6 @@ namespace Presentation {
     // 2. Authorization Grant (inbound)
     public async Task<ActionResult> Callback(string code, string state)
     {
-
       var authResponse = cache.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN);
 
       if(authResponse == null){
@@ -39,32 +38,19 @@ namespace Presentation {
         getTokenUseCase.Code = code;
         getTokenUseCase.State = state;
 
+        // 4. Access Token (inbound)
         var tokenResult = await getTokenUseCase.Execute();
-        
-        if (tokenResult.DidFail)
-        {
-          return Unauthorized(tokenResult.ErrorMessage);
-        }
-        
         authResponse = tokenResult.Value;
-
-        cache.SetValue(KEYS.ACCESS_TOKEN, authResponse);
-
-        renewTokenUseCase.RefreshToken = authResponse.refresh_token;
-      }    
-
-      // 4. Access Token (inbound)
-      getCountersUseCase.Token = authResponse.access_token;
-
-      // 5. Access Token (outbound)
-      var countersResult = await getCountersUseCase.Execute();
-
-      if (countersResult.DidFail)
-      {
-        return BadRequest(countersResult.ErrorMessage);
       }
 
+      // 5. Access Token (outbound)      
+      getCountersUseCase.Token = authResponse.access_token;
+
       // 6. Protected Resource
+      var countersResult = await getCountersUseCase.Execute();
+      
+      renewTokenUseCase.RefreshToken = authResponse.refresh_token;
+
       return Ok(countersResult.Value);
 
     }
@@ -73,12 +59,12 @@ namespace Presentation {
     public async Task<ActionResult> RenewToken()
     {
       var result = await renewTokenUseCase.Execute();
-      
-      if(result.DidFail){
-        return Redirect("/");
+
+      if(result.DidSucceed){
+        return Ok(result.Value);
       }
 
-      return Ok(result.Value);
+      return Redirect("/");
     }
   }
 }

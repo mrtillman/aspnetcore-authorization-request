@@ -20,7 +20,11 @@ namespace Application
     {
       var authResponse = cacheService.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN);
       if(authResponse != null) return Result<AuthorizationResponse>.Ok(authResponse);
-      return await secureService.GetToken(Code, State);
+      var result = await secureService.GetToken(Code, State);
+      if(result.DidSucceed){
+        cacheService.SetValue(KEYS.ACCESS_TOKEN, result.Value);
+      }
+      return result;
     }
   }
 }
