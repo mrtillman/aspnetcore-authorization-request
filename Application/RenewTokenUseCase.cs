@@ -28,10 +28,9 @@ namespace Application
         return Result<AuthorizationResponse>.Fail("Please Sign In");
       }
       var result = await secureService.RenewToken(RefreshToken);
-      if(result.DidFail){
-        return Result<AuthorizationResponse>.Fail(result.ErrorMessage);
+      if(result.DidSucceed){
+        RefreshToken = result.Value.refresh_token;
       }
-      RefreshToken = result.Value.refresh_token;
       return result;
     }
   }
