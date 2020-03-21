@@ -40,7 +40,7 @@ namespace Tests.Presentation {
                       .Verifiable();
       secureServiceMock.Setup(service => service.GetToken(It.IsAny<string>(), It.IsAny<string>()))
                        .Returns(Task.FromResult(Result<AuthorizationResponse>.Ok(authResponse)));
-      getTokenUseCase = new GetTokenUseCase(secureServiceMock.Object);
+      getTokenUseCase = new GetTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       counterServiceMock.Setup(service => service.GetCounters())
                         .Returns(Task.FromResult(Result<List<Counter>>.Ok(new List<Counter>())));
       getCountersUseCase = new GetCountersUseCase(counterServiceMock.Object);
