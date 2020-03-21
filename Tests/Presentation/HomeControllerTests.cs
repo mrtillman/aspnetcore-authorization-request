@@ -16,7 +16,7 @@ namespace Tests.Presentation {
     private Mock<ISecureService> secureServiceMock { get; set; }
 
     [TestInitialize]
-    public void TestSetup() {
+    public void Initialize() {
       cacheMock = new Mock<ICacheService>();
       cacheMock.Setup(cache => cache.Clear()).Verifiable();
       secureServiceMock = new Mock<ISecureService>();
