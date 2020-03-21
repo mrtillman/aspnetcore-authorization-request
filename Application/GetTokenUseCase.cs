@@ -16,6 +16,13 @@ namespace Application
     private ICacheService cacheService { get; set; }
     public string Code { get; set; }
     public string State { get; set; }
+
+    public string AuthorizationUrl { 
+      get {
+        cacheService.Clear();
+        return secureService.AuthorizationUrl;
+      } 
+    }
     public async Task<Result<AuthorizationResponse>> Execute()
     {
       var authResponse = cacheService.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN);
