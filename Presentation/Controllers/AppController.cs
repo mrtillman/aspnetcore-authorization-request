@@ -1,36 +1,53 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Application;
 using Services;
+using Application;
 using Common;
 using Domain;
 
 namespace Presentation {
 
-  public class OAuth2Controller : Controller
+  public class AppController : Controller
   {
 
-    public OAuth2Controller(
+    public AppController(
       GetTokenUseCase GetTokenUseCase, 
       GetCountersUseCase GetCountersUseCase,
       RenewTokenUseCase RenewTokenUseCase,
+      ISecureService SecureService,
       ICacheService CacheService)
     {
       getTokenUseCase = GetTokenUseCase;
       getCountersUseCase = GetCountersUseCase;
       renewTokenUseCase = RenewTokenUseCase;
-      cache = CacheService;
+      secureService = SecureService;
+      cacheService = CacheService;
     }
+
+    private ISecureService secureService { get; set; }
+    private ICacheService cacheService { get; set; }
     private GetTokenUseCase getTokenUseCase { get; set; }
     private GetCountersUseCase getCountersUseCase { get; set; }
     private RenewTokenUseCase renewTokenUseCase { get; set; }
 
-    private ICacheService cache { get; set; }
+    [Route("/")]
+    public ViewResult Index()
+    {
+      cacheService.Clear();
+      return View();
+    }
+    [Route("/home/signin")]
+    public void SignIn()
+    {
+      // 1. Begin Authorization Request
+      Response.Redirect(secureService.AuthorizationUrl);
+    }
 
     // 2. Authorization Grant (inbound)
+    [Route("/oauth2/callback")]
     public async Task<ActionResult> Callback(string code, string state)
     {
-      var authResponse = cache.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN);
+      var authResponse = cacheService.GetValue<AuthorizationResponse>(KEYS.ACCESS_TOKEN);
 
       if(authResponse == null){
 
