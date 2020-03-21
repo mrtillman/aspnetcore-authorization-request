@@ -23,7 +23,7 @@ namespace Tests.Application
     }
 
     [TestMethod]
-    public async Task Execute_ShouldFail_IfRefreshTokenIsNull(){
+    public async Task Execute_WhenRefreshTokenIsNull_ShouldFail(){
       var useCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       useCase.RefreshToken = null;
 
@@ -42,7 +42,6 @@ namespace Tests.Application
       secureServiceMock.Setup(service => service.RenewToken(It.IsAny<string>()))
                        .Returns(Task.FromResult(TestDoubles.authResult))
                        .Verifiable();
-
       var useCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
 
       var result = await useCase.Execute();

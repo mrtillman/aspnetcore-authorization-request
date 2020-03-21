@@ -39,6 +39,7 @@ namespace Tests.Application
     [TestMethod]
     public void Token_Should_GetToken() {
       getCountersUseCase = new GetCountersUseCase(mockCounterService.Object);
+      
       var token = getCountersUseCase.Token;
       
       mockCounterService.Verify(service => service.Token, Times.Once);
