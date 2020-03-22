@@ -5,6 +5,7 @@ using Xunit.Gherkin.Quick;
 using Application;
 using Common;
 using Domain;
+using Tests;
 
 namespace Specification
 {
@@ -19,7 +20,7 @@ namespace Specification
         [Given("an access token")]
         public void An_access_token()
         {
-            usecase.Token = _token;
+            usecase.Token = TestDoubles.Token;
         }
     
         [When("I request counters")]

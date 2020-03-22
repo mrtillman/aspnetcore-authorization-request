@@ -6,19 +6,16 @@ using Moq;
 using Domain;
 using Common;
 using Services;
+using Tests;
 
 namespace Specification {
-
   public abstract class World : Feature, IDisposable
   {
-      
-      public static readonly string _token = "TokenValue";
-
       public static ICounterService MockCounterService() {
           var countersResult = Result.Ok(new List<Counter>());
           var mockCounterService = Mock.Of<ICounterService>();
-            Mock.Get(mockCounterService).SetupSet(service => service.Token = _token).Verifiable();
-            Mock.Get(mockCounterService).SetupGet(service => service.Token).Returns(_token);
+            Mock.Get(mockCounterService).SetupSet(service => service.Token = TestDoubles.Token).Verifiable();
+            Mock.Get(mockCounterService).SetupGet(service => service.Token).Returns(TestDoubles.Token);
             Mock.Get(mockCounterService)
                 .Setup(service => service.GetCounters())
                 .Returns(Task.FromResult(countersResult));

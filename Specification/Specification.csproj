@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Tests\Tests.csproj" />
   </ItemGroup>
 
   <Target Name="CopySpecs" AfterTargets="AfterBuild">
