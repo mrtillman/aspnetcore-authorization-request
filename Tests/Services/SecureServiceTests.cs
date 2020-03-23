@@ -16,7 +16,7 @@ namespace Tests.Services
   public class SecureServiceTests
   {
     [TestInitialize]
-    public void TestStartup()
+    public void Initialize()
     {
       var mockResponse = mockAuthorizationResponse();
 
@@ -37,23 +37,26 @@ namespace Tests.Services
     private readonly AuthorizationUrlRegex authUrlRegex = new AuthorizationUrlRegex();
 
     [TestMethod]
-    public void Should_GetAuthorizationUrl()
+    public void AuthorizationUrl_Should_MatchRegexPattern()
     {
       Assert.IsTrue(authUrlRegex.IsMatch(secureService.AuthorizationUrl));
     }
 
     [TestMethod]
-    public async Task Should_GetToken(){
+    public async Task GetToken_Should_ReturnAuthorizationResponse(){
       NameValueCollection querystring = HttpUtility.ParseQueryString(secureService.AuthorizationUrl);
       var state = querystring["state"];
-      var AuthorizationResponse = await secureService.GetToken("code", state);
-      Assert.IsNotNull(AuthorizationResponse.Value);
+      
+      var result = await secureService.GetToken("code", state);
+
+      Assert.IsInstanceOfType(result.Value, typeof(AuthorizationResponse));
     }
 
     [TestMethod]
-    public async Task Should_RenewToken(){
-      var AuthorizationResponse = await secureService.RenewToken("refr3sh-tok3n");
-      Assert.IsNotNull(AuthorizationResponse.Value);
+    public async Task RenewToken_Should_ReturnAuthorizationResponse(){
+      var result = await secureService.RenewToken("refr3sh-tok3n");
+      
+      Assert.IsInstanceOfType(result.Value, typeof(AuthorizationResponse));
     }
 
     private HttpResponseMessage mockAuthorizationResponse(){

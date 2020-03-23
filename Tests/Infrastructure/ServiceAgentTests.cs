@@ -22,7 +22,7 @@ namespace Tests.Infrastructure {
     private HttpResponseMessage mockResponse { get; set; }
 
     [TestMethod]
-    public async Task Should_FetchCounters(){
+    public async Task FetchCounters_Should_Succeed(){
       var mockHandler = mockHttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       agent = new ServiceAgent(client, TestDoubles.ServerUrls);
@@ -31,7 +31,7 @@ namespace Tests.Infrastructure {
     }
 
     [TestMethod]
-    public async Task Should_FetchToken(){
+    public async Task FetchToken_Should_Succeed(){
       var mockHandler = mockHttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       agent = new ServiceAgent(client, TestDoubles.ServerUrls);
@@ -40,7 +40,7 @@ namespace Tests.Infrastructure {
     }
 
     [TestMethod]
-    public async Task Should_RenewToken(){
+    public async Task RenewToken_Should_Succeed(){
       var mockHandler = mockHttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       agent = new ServiceAgent(client, TestDoubles.ServerUrls);

@@ -53,7 +53,7 @@ namespace Tests.Presentation {
     }
 
     [TestMethod]
-    public async Task CallbackShould_GetCounters(){
+    public async Task Callback_Should_GetCounters(){
       var authResponse = new AuthorizationResponse(){ 
         access_token = "access_token",
         refresh_token = "refresh_token"
@@ -72,7 +72,6 @@ namespace Tests.Presentation {
                         .Returns(Task.FromResult(Result.Ok(new List<Counter>())));
       getCountersUseCase = new GetCountersUseCase(counterServiceMock.Object);
       renewTokenUseCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
-      
       controller = new AppController(
         getTokenUseCase, getCountersUseCase, renewTokenUseCase, cacheServiceMock.Object
       );
@@ -83,7 +82,7 @@ namespace Tests.Presentation {
     }
 
     [TestMethod]
-    public async Task RenewTokenShould_RedirectHome_WhenRefreshTokenIsNull(){
+    public async Task RenewToken_WhenRefreshTokenIsNull_ShouldRedirectHome(){
       cacheServiceMock = new Mock<ICacheService>();
       cacheServiceMock.Setup(cache => cache.GetValue<string>(KEYS.REFRESH_TOKEN))
                       .Returns(() => null);
@@ -99,7 +98,7 @@ namespace Tests.Presentation {
     }
 
     [TestMethod]
-    public async Task RenewTokenShould_GetAuthResponse(){
+    public async Task RenewToken_WhenRefreshTokenIsNotNull_ShouldGetAuthResponse(){
       var refreshToken = "refresh_token";
       cacheServiceMock = new Mock<ICacheService>();
       cacheServiceMock.Setup(cache => cache.GetValue<string>(KEYS.REFRESH_TOKEN))

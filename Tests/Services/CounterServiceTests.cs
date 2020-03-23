@@ -14,7 +14,7 @@ namespace Tests.Services
     private CounterService service { get; set; }
 
     [TestMethod]
-    public async Task Should_GetCounters()
+    public async Task GetCounters_Should_Succeed()
     {
       var mockResponse = mockCountersResponse();
       

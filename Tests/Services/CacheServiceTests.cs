@@ -8,7 +8,7 @@ namespace Tests.Services
   public class CacheServiceTests
   {
     [TestInitialize]
-    public void TestStartup()
+    public void Initialize()
     {
       cacheService = new CacheService();
     }
