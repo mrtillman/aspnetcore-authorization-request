@@ -16,7 +16,8 @@ namespace Tests.Application
     {
         mockCounterService = new Mock<ICounterService>();
         Result<List<Counter>> mockResult = Result.Ok(new List<Counter>());
-        mockCounterService.SetupSet(service => service.Token = TestDoubles.Token).Verifiable();
+        mockCounterService.SetupSet(service => service.Token = TestDoubles.Token)
+                          .Verifiable();
         mockCounterService.SetupGet(service => service.Token)
                           .Returns(TestDoubles.Token)
                           .Verifiable();

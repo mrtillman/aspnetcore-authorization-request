@@ -26,7 +26,9 @@ namespace Tests.Infrastructure {
       var mockHandler = mockHttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       agent = new ServiceAgent(client, TestDoubles.ServerUrls);
+      
       var response = await agent.FetchCounters();
+      
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 
@@ -35,7 +37,9 @@ namespace Tests.Infrastructure {
       var mockHandler = mockHttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       agent = new ServiceAgent(client, TestDoubles.ServerUrls);
+      
       var response = await agent.FetchToken(new AuthorizationRequest());
+
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 
@@ -44,7 +48,9 @@ namespace Tests.Infrastructure {
       var mockHandler = mockHttpMessageHandler(mockResponse);
       var client = new HttpClient(mockHandler.Object);
       agent = new ServiceAgent(client, TestDoubles.ServerUrls);
+      
       var response = await agent.RenewToken(new AuthorizationRequest());
+
       Assert.IsTrue(response.IsSuccessStatusCode);
     }
 

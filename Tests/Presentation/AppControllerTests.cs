@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.AspNetCore.Mvc;
 using Presentation;
 using Services;
-using Microsoft.AspNetCore.Http;
+using Tests;
 using Application;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -55,8 +55,8 @@ namespace Tests.Presentation {
     [TestMethod]
     public async Task Callback_Should_GetCounters(){
       var authResponse = new AuthorizationResponse(){ 
-        access_token = "access_token",
-        refresh_token = "refresh_token"
+        access_token = TestDoubles.Token,
+        refresh_token = TestDoubles.RefreshToken
       };
       cacheServiceMock = new Mock<ICacheService>();
       secureServiceMock = new Mock<ISecureService>();
@@ -73,10 +73,11 @@ namespace Tests.Presentation {
       getCountersUseCase = new GetCountersUseCase(counterServiceMock.Object);
       renewTokenUseCase = new RenewTokenUseCase(secureServiceMock.Object, cacheServiceMock.Object);
       controller = new AppController(
-        getTokenUseCase, getCountersUseCase, renewTokenUseCase, cacheServiceMock.Object
+        getTokenUseCase, getCountersUseCase,
+        renewTokenUseCase, cacheServiceMock.Object
       );
       
-      var result = await controller.Callback("code", "state");
+      var result = await controller.Callback(TestDoubles.Code, TestDoubles.State);
 
       Assert.IsNotNull(result);
     }

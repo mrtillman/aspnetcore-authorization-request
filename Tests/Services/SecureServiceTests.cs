@@ -9,6 +9,7 @@ using Moq;
 using Infrastructure;
 using Domain;
 using Common;
+using Tests;
 
 namespace Tests.Services
 {
@@ -47,23 +48,22 @@ namespace Tests.Services
       NameValueCollection querystring = HttpUtility.ParseQueryString(secureService.AuthorizationUrl);
       var state = querystring["state"];
       
-      var result = await secureService.GetToken("code", state);
+      var result = await secureService.GetToken(TestDoubles.Code, state);
 
       Assert.IsInstanceOfType(result.Value, typeof(AuthorizationResponse));
     }
 
     [TestMethod]
     public async Task RenewToken_Should_ReturnAuthorizationResponse(){
-      var result = await secureService.RenewToken("refr3sh-tok3n");
+      var result = await secureService.RenewToken(TestDoubles.RefreshToken);
       
       Assert.IsInstanceOfType(result.Value, typeof(AuthorizationResponse));
     }
 
     private HttpResponseMessage mockAuthorizationResponse(){
-      var authorizationResponse = "{\"id_token\":\"id_token\", \"access_token\":\"access_token\", \"expires_in\":86400, \"token_type\":\"Bearer\",  \"scope\":\"openid\"}";
       var response = Mock.Of<HttpResponseMessage>();
       response.StatusCode = HttpStatusCode.OK;
-      response.Content = new StringContent(authorizationResponse);
+      response.Content = new StringContent("{}");
       return response;
     }
   }

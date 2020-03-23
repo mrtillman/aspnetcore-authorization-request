@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services;
 using Common;
+using Tests;
 
 namespace Tests.Services
 {
@@ -16,7 +17,7 @@ namespace Tests.Services
 
     [TestMethod]
     public void Should_CacheAccessToken(){
-      cacheService.SetValue(KEYS.ACCESS_TOKEN, "access_token");
+      cacheService.SetValue(KEYS.ACCESS_TOKEN, TestDoubles.Token);
 
       var result = cacheService.GetValue<string>(KEYS.ACCESS_TOKEN);
 
@@ -25,7 +26,7 @@ namespace Tests.Services
 
     [TestMethod]
     public void Should_CacheRefreshToken(){
-      cacheService.SetValue(KEYS.REFRESH_TOKEN, "refresh_token");
+      cacheService.SetValue(KEYS.REFRESH_TOKEN, TestDoubles.RefreshToken);
 
       var result = cacheService.GetValue<string>(KEYS.REFRESH_TOKEN);
 

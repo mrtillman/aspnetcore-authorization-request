@@ -31,7 +31,7 @@ namespace Tests.Common{
 
     [TestMethod]
     public void Fail_Should_HaveErrorMessage(){
-      var result = Result.Fail<bool>("no luck");
+      var result = Result.Fail<bool>("try again");
       
       Assert.IsNotNull(result.ErrorMessage);
     }
