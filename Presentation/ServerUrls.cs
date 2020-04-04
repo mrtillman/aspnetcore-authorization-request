@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Common;
 
 public class ServerUrls : IServerUrls
 {
-  public ServerUrls(IHostingEnvironment Environment)
+  public ServerUrls(IWebHostEnvironment Environment)
   {
     environment = Environment;
   }
 
-  private IHostingEnvironment environment { get; set; }
+  private IWebHostEnvironment environment { get; set; }
 
   public string API
   {
